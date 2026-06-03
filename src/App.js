@@ -82,7 +82,7 @@ function App() {
           {seccion === 'grupos' && <Grupos resultados={resultados} />}
           {seccion === 'fixture' && <Fixture resultados={resultados} setResultados={setResultados} />}
           {seccion === 'eliminatoria' && <Eliminatoria resultados={resultados} setResultados={setResultados} />}
-          {seccion === 'bracket' && <Bracket resultados={resultados} setResultados={setResultados} />}
+          {seccion === 'bracket' && <Bracket resultados={resultados} setResultados={setResultados} oscuro={oscuro} />}
         </div>
       </IdiomaContext.Provider>
     </TemaContext.Provider>
