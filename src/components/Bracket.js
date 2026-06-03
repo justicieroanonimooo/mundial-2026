@@ -1,6 +1,7 @@
 import React, { useContext, useRef } from 'react';
 import { TemaContext, IdiomaContext } from '../App';
 
+// eslint-disable-next-line no-unused-vars
 const infoPartidos = {
   73: { desc: '2º A vs 2º B' }, 74: { desc: '1º E vs 3º' },
   75: { desc: '1º F vs 2º C' }, 76: { desc: '1º C vs 2º F' },
