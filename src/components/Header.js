@@ -55,8 +55,8 @@ function Header({ oscuro, setOscuro }) {
 
       {/* Título */}
       <div style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
-        <h1 style={{ margin: 0, fontSize: '1.6rem', textShadow: '0 2px 8px rgba(0,0,0,0.9)' }}>
-          🏆 Copa Mundial FIFA 2026
+      <h1 style={{ margin: 0, fontSize: '1.6rem', textShadow: '0 2px 8px rgba(0,0,0,0.9)' }}>
+          {t.header.titulo}
         </h1>
         <p style={{ margin: '4px 0 0', opacity: 0.95, fontSize: '0.9rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
           {t.header.subtitulo}

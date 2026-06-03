@@ -26,7 +26,6 @@ const CARD_WIDTH = 160;
 const RONDA_WIDTH = 180;
 const V_GAP_BASE = 20;
 
-// Estructura izquierda y derecha
 const izquierda = [
   [73, 74, 75, 76, 77, 78, 79, 80],
   [90, 89, 91, 92],
@@ -42,15 +41,9 @@ const derecha = [
 ];
 
 function calcularPosiciones(rondas) {
-  // Para cada ronda calcula la posición Y centrada entre sus "padres"
   const posiciones = [];
-
-  // Primera ronda: posiciones equidistantes
-  const primeraRonda = rondas[0];
-  const primeraPosY = primeraRonda.map((_, i) => i * (CARD_HEIGHT + V_GAP_BASE));
+  const primeraPosY = rondas[0].map((_, i) => i * (CARD_HEIGHT + V_GAP_BASE));
   posiciones.push(primeraPosY);
-
-  // Rondas siguientes: centradas entre pares
   for (let r = 1; r < rondas.length; r++) {
     const prevPos = posiciones[r - 1];
     const nuevaPos = [];
@@ -61,7 +54,6 @@ function calcularPosiciones(rondas) {
     }
     posiciones.push(nuevaPos);
   }
-
   return posiciones;
 }
 
@@ -71,29 +63,12 @@ function PartidoBracket({ id, resultados, tema, x, y }) {
 
   return (
     <g transform={`translate(${x}, ${y})`}>
-      {/* Fondo tarjeta */}
-      <rect
-        width={CARD_WIDTH} height={CARD_HEIGHT}
-        rx="8" ry="8"
-        fill={tema.tarjeta}
-        stroke={jugado ? tema.puntaje : tema.borde}
-        strokeWidth="1.5"
-      />
-      {/* ID partido */}
+      <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" ry="8" fill={tema.tarjeta} stroke={jugado ? tema.puntaje : tema.borde} strokeWidth="1.5" />
       <text x="8" y="14" fontSize="9" fill={tema.puntaje} fontWeight="bold">P{id}</text>
-      {/* Línea divisoria */}
       <line x1="0" y1={CARD_HEIGHT / 2} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2} stroke={tema.borde} strokeWidth="1" />
-      {/* Equipo local */}
-      <text x="8" y="34" fontSize="11" fill={tema.texto} fontWeight="bold">
-        {(res.local || '?').substring(0, 16)}
-      </text>
-      {/* Goles local */}
+      <text x="8" y="34" fontSize="11" fill={tema.texto} fontWeight="bold">{(res.local || '?').substring(0, 16)}</text>
       {jugado && <text x={CARD_WIDTH - 10} y="34" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor="end">{res.golesLocal}</text>}
-      {/* Equipo visita */}
-      <text x="8" y="64" fontSize="11" fill={tema.texto}>
-        {(res.visita || '?').substring(0, 16)}
-      </text>
-      {/* Goles visita */}
+      <text x="8" y="64" fontSize="11" fill={tema.texto}>{(res.visita || '?').substring(0, 16)}</text>
       {jugado && <text x={CARD_WIDTH - 10} y="64" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor="end">{res.golesVisita}</text>}
     </g>
   );
@@ -110,19 +85,10 @@ function BracketLado({ rondas, posiciones, resultados, tema, offsetX, espejo }) 
     ronda.forEach((id, partidoIdx) => {
       const y = posiciones[rondaIdx][partidoIdx];
 
-      // Tarjeta
       elementos.push(
-        <PartidoBracket
-          key={`card-${id}`}
-          id={id}
-          resultados={resultados}
-          tema={tema}
-          x={x}
-          y={y}
-        />
+        <PartidoBracket key={`card-${id}`} id={id} resultados={resultados} tema={tema} x={x} y={y} />
       );
 
-      // Línea conectora hacia siguiente ronda
       if (rondaIdx < rondas.length - 1) {
         const nextIdx = Math.floor(partidoIdx / 2);
         const nextY = posiciones[rondaIdx + 1][nextIdx];
@@ -137,14 +103,8 @@ function BracketLado({ rondas, posiciones, resultados, tema, offsetX, espejo }) 
         const midX = (salida + entrada) / 2;
 
         elementos.push(
-          <path
-            key={`line-${id}`}
-            d={`M ${salida} ${midCardY} H ${midX} V ${midNextY} H ${entrada}`}
-            fill="none"
-            stroke={tema.puntaje}
-            strokeWidth="1.5"
-            opacity="0.6"
-          />
+          <path key={`line-${id}`} d={`M ${salida} ${midCardY} H ${midX} V ${midNextY} H ${entrada}`}
+            fill="none" stroke={tema.puntaje} strokeWidth="1.5" opacity="0.6" />
         );
       }
     });
@@ -154,26 +114,22 @@ function BracketLado({ rondas, posiciones, resultados, tema, offsetX, espejo }) 
 }
 
 function Bracket({ resultados, oscuro }) {
-    const tema = useContext(TemaContext);
-    const { t } = useContext(IdiomaContext);
+  const tema = useContext(TemaContext);
+  const { t } = useContext(IdiomaContext);
   const scrollRef = useRef(null);
 
   const posIzq = calcularPosiciones(izquierda);
   const posDer = calcularPosiciones(derecha);
 
   const alturaTotal = izquierda[0].length * (CARD_HEIGHT + V_GAP_BASE) + 40;
-  const anchoTotal = (izquierda.length + derecha.length) * RONDA_WIDTH + CARD_WIDTH + 200;
-  const centroX = anchoTotal / 2;
+  const anchoTotal = 2048;
+  const centroX = 1024;
 
   const scroll = (dir) => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' });
     }
   };
-
-  // Etiquetas de rondas
-  const rondasIzq = [t.bracket.dieciseisavos, t.bracket.octavos, t.bracket.cuartos, t.bracket.semis];
-  const rondasDer = [t.bracket.dieciseisavos, t.bracket.octavos, t.bracket.cuartos, t.bracket.semis];
 
   return (
     <div style={{ padding: '20px', maxWidth: '100%', margin: '0 auto' }}>
@@ -182,118 +138,65 @@ function Bracket({ resultados, oscuro }) {
         {t.bracket.subtitulo}
       </p>
 
-      {/* Botones navegación */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
-        <button onClick={() => scroll(-1)} style={{
-          padding: '8px 20px', background: tema.primario, color: 'white',
-          border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '1.2rem'
-        }}>◀</button>
-        <button onClick={() => scroll(1)} style={{
-          padding: '8px 20px', background: tema.primario, color: 'white',
-          border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '1.2rem'
-        }}>▶</button>
+        <button onClick={() => scroll(-1)} style={{ padding: '8px 20px', background: tema.primario, color: 'white', border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '1.2rem' }}>◀</button>
+        <button onClick={() => scroll(1)} style={{ padding: '8px 20px', background: tema.primario, color: 'white', border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '1.2rem' }}>▶</button>
       </div>
 
-      {/* Bracket SVG scrolleable */}
-      <div ref={scrollRef} style={{
-        overflowX: 'auto',
-        borderRadius: '16px',
-        boxShadow: tema.sombra,
-        position: 'relative',
-      }}>
-        {/* Fondo estadio */}
+      <div ref={scrollRef} style={{ overflowX: 'auto', borderRadius: '16px', boxShadow: tema.sombra, position: 'relative' }}>
         <img src="/estadio.jpg" alt="" style={{
-          position: 'absolute',
-          top: 0, left: 0,
-          width: `${anchoTotal}px`,
-          height: '100%',
-          objectFit: 'cover',
-          objectPosition: 'center',
-          opacity: 0.15,
-          borderRadius: '16px',
-          pointerEvents: 'none',
+          position: 'absolute', top: 0, left: 0,
+          width: `${anchoTotal}px`, height: '100%',
+          objectFit: 'cover', objectPosition: 'center',
+          opacity: 0.15, borderRadius: '16px', pointerEvents: 'none',
         }} />
         <div style={{ position: 'relative', padding: '20px' }}>
-        <svg width={anchoTotal} height={alturaTotal + 60}>
+          <svg width={anchoTotal} height={alturaTotal + 60}>
 
-          {/* Etiquetas rondas izquierda */}
-          {rondasIzq.map((label, i) => (
-            <text
-              key={`liq-${i}`}
-              x={i * RONDA_WIDTH + CARD_WIDTH / 2}
-              y="16"
-              fontSize="10"
-              fill={tema.puntaje}
-              fontWeight="bold"
-              textAnchor="middle"
-            >
-              {label}
-            </text>
-          ))}
+            {/* Lado izquierdo — empieza en x=0 */}
+            <g transform="translate(0, 20)">
+              <BracketLado
+                rondas={izquierda}
+                posiciones={posIzq}
+                resultados={resultados}
+                tema={tema}
+                offsetX={0}
+                espejo={false}
+              />
+            </g>
 
-          {/* Etiquetas rondas derecha */}
-          {rondasDer.map((label, i) => (
-            <text
-              key={`ldr-${i}`}
-              x={centroX + 120 + (3 - i) * RONDA_WIDTH + CARD_WIDTH / 2}
-              y="16"
-              fontSize="10"
-              fill={tema.puntaje}
-              fontWeight="bold"
-              textAnchor="middle"
-            >
-              {label}
-            </text>
-          ))}
+            {/* Centro — Copa y Final — centrado en x=1024 */}
+            <g transform={`translate(${centroX - CARD_WIDTH / 2}, ${alturaTotal / 2 - 60})`}>
+              <image href={oscuro ? "/copa-oscuro.png" : "/copa-claro.png"} x={CARD_WIDTH / 2 - 180} y="-370" width="360" height="360" opacity="0.85" />
+              <text x={CARD_WIDTH / 2} y="10" fontSize="10" fill={tema.puntaje} fontWeight="bold" textAnchor="middle">
+                {t.bracket.final}
+              </text>
+              <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke="#FFD700" strokeWidth="2" y="20" />
+              <text x="8" y="38" fontSize="9" fill="#FFD700" fontWeight="bold">P104</text>
+              <line x1="0" y1={CARD_HEIGHT / 2 + 20} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 20} stroke={tema.borde} strokeWidth="1" />
+              <text x="8" y="54" fontSize="11" fill={tema.texto} fontWeight="bold">?</text>
+              <text x="8" y="84" fontSize="11" fill={tema.texto}>?</text>
+              <text x={CARD_WIDTH / 2} y="130" fontSize="10" fill={tema.subtexto} textAnchor="middle">{t.bracket.tercero}</text>
+              <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke={tema.borde} strokeWidth="1.5" y="140" />
+              <text x="8" y="158" fontSize="9" fill={tema.puntaje} fontWeight="bold">P103</text>
+              <line x1="0" y1={CARD_HEIGHT / 2 + 140} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 140} stroke={tema.borde} strokeWidth="1" />
+              <text x="8" y="174" fontSize="11" fill={tema.texto} fontWeight="bold">?</text>
+              <text x="8" y="204" fontSize="11" fill={tema.texto}>?</text>
+            </g>
 
-          {/* Lado izquierdo */}
-          <g transform="translate(0, 30)">
-            <BracketLado
-              rondas={izquierda}
-              posiciones={posIzq}
-              resultados={resultados}
-              tema={tema}
-              offsetX={0}
-              espejo={false}
-            />
-          </g>
+            {/* Lado derecho — termina en x=2048 */}
+            <g transform="translate(0, 20)">
+              <BracketLado
+                rondas={derecha}
+                posiciones={posDer}
+                resultados={resultados}
+                tema={tema}
+                offsetX={anchoTotal - CARD_WIDTH}
+                espejo={true}
+              />
+            </g>
 
-          {/* Centro — Copa y Final */}
-          <g transform={`translate(${centroX - CARD_WIDTH / 2}, ${alturaTotal / 2 - 60})`}>
-          <image href={oscuro ? "/copa-oscuro.png" : "/copa-claro.png"} x={CARD_WIDTH / 2 - 180} y="-370" width="360" height="360" opacity="0.85" />
-            <text x={CARD_WIDTH / 2} y="10" fontSize="10" fill={tema.puntaje} fontWeight="bold" textAnchor="middle">
-              {t.bracket.final}
-            </text>
-            <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke="#FFD700" strokeWidth="2" y="20" />
-            <text x="8" y="38" fontSize="9" fill="#FFD700" fontWeight="bold">P104</text>
-            <line x1="0" y1={CARD_HEIGHT / 2 + 20} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 20} stroke={tema.borde} strokeWidth="1" />
-            <text x="8" y="54" fontSize="11" fill={tema.texto} fontWeight="bold">?</text>
-            <text x="8" y="84" fontSize="11" fill={tema.texto}>?</text>
-
-            {/* 3er puesto */}
-            <text x={CARD_WIDTH / 2} y="130" fontSize="10" fill={tema.subtexto} textAnchor="middle">
-              {t.bracket.tercero}
-            </text>
-            <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke={tema.borde} strokeWidth="1.5" y="140" />
-            <text x="8" y="158" fontSize="9" fill={tema.puntaje} fontWeight="bold">P103</text>
-            <line x1="0" y1={CARD_HEIGHT / 2 + 140} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 140} stroke={tema.borde} strokeWidth="1" />
-            <text x="8" y="174" fontSize="11" fill={tema.texto} fontWeight="bold">?</text>
-            <text x="8" y="204" fontSize="11" fill={tema.texto}>?</text>
-          </g>
-
-          {/* Lado derecho */}
-          <g transform="translate(0, 30)">
-            <BracketLado
-              rondas={derecha}
-              posiciones={posDer}
-              resultados={resultados}
-              tema={tema}
-              offsetX={centroX + 120 + (derecha.length - 1) * RONDA_WIDTH + CARD_WIDTH}
-              espejo={true}
-            />
-          </g>
-
-        </svg>
+          </svg>
         </div>
       </div>
     </div>

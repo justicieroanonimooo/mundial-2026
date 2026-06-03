@@ -45,6 +45,7 @@ export const idiomas = {
         tercero: '🥉 3er Puesto',
       },
       header: {
+        titulo: '🏆 Copa Mundial FIFA 2026',
         subtitulo: 'USA · México · Canadá',
         claro: '☀️ Claro',
         oscuro: '🌙 Oscuro',
@@ -97,6 +98,7 @@ export const idiomas = {
         tercero: '🥉 3rd Place',
       },
       header: {
+        titulo: '🏆 FIFA World Cup 2026',
         subtitulo: 'USA · Mexico · Canada',
         claro: '☀️ Light',
         oscuro: '🌙 Dark',

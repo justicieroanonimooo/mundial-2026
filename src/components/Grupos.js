@@ -189,6 +189,7 @@ function Grupos({ resultados }) {
         boxShadow: tema.sombra, overflow: 'hidden',
         transition: 'all 0.3s'
       }}>
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
           <thead>
             <tr style={{ background: tema.primario, color: 'white' }}>
@@ -224,6 +225,7 @@ function Grupos({ resultados }) {
             ))}
           </tbody>
         </table>
+        </div>  
       </div>
       <p style={{ textAlign: 'center', fontSize: '0.8rem', color: tema.subtexto, marginTop: '10px' }}>
         {t.grupos.clasificados}

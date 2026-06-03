@@ -2,6 +2,26 @@ import React, { useState, useContext } from 'react';
 import { TemaContext, IdiomaContext } from '../App';
 import { horariosPartidos, formatearHoraLocal } from '../horarios';
 
+const imagenesEstadios = {
+    'Ciudad de México': '/estadio-azteca.jpg',
+    'Dallas': '/estadio-dallas.jpg',
+    'Monterrey': '/estadio-monterrey.jpg',
+    'Boston': '/estadio-boston.jpg',
+    'Houston': '/estadio-houston.jpg',
+    'Nueva York': '/estadio-newyork.jpg',
+    'Miami': '/estadio-miami.jpg',
+    'Atlanta': '/estadio-atlanta.jpg',
+    'Los Ángeles': '/estadio-losangeles.jpg',
+    'Seattle': '/estadio-seattle.jpg',
+    'Vancouver': '/estadio-vancouver.jpg',
+    'Toronto': '/estadio-toronto.jpg',
+    'Kansas City': '/estadio-kansas.jpg',
+    'Filadelfia': '/estadio-filadelfia.jpg',
+    'San Francisco': '/estadio-sanfrancisco.jpg',
+    'Guadalajara': '/estadio-guadalajara.jpg',
+    'Denver': '/estadio-dallas.jpg',
+  };
+
 const dieciseisavos = [
   { id: 73, label: 'P73', desc: '2º Grupo A vs 2º Grupo B', fecha: '28 Jun', sede: 'Ciudad de México' },
   { id: 74, label: 'P74', desc: '1º Grupo E vs 3º A/B/C/D/F', fecha: '28 Jun', sede: 'Dallas' },
@@ -47,7 +67,7 @@ const semis = [
 const tercerPuesto = { id: 103, label: 'P103', desc: 'Per. P101 vs Per. P102', fecha: '18 Jul', sede: 'Miami' };
 const final = { id: 104, label: 'P104', desc: 'Gan. P101 vs Gan. P102', fecha: '19 Jul', sede: 'Nueva York' };
 
-function PartidoCard({ partido, resultados, setResultados, tema }) {
+function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
   const [editando, setEditando] = useState(false);
   const res = resultados[partido.id] || {};
   const jugado = res.local && res.visita && res.golesLocal !== undefined && res.golesVisita !== undefined && res.golesLocal !== '' && res.golesVisita !== '';
@@ -61,15 +81,27 @@ function PartidoCard({ partido, resultados, setResultados, tema }) {
 
   return (
     <div style={{
-      background: tema.tarjeta,
-      borderRadius: '10px',
-      boxShadow: tema.sombra,
-      padding: '10px',
-      minWidth: '180px',
-      maxWidth: '200px',
-      transition: 'all 0.3s',
-      border: jugado ? `2px solid ${tema.puntaje}` : `2px solid ${tema.borde}`,
-    }}>
+        background: imagenesEstadios[partido.sede] 
+        ? `url(${imagenesEstadios[partido.sede]}) center/cover no-repeat`
+        : tema.tarjeta,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        borderRadius: '10px',
+        boxShadow: tema.sombra,
+        padding: '10px',
+        minWidth: '180px',
+        maxWidth: '200px',
+        transition: 'all 0.3s',
+        border: jugado ? `2px solid ${tema.puntaje}` : `2px solid ${tema.borde}`,
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: oscuro ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.55)',
+          zIndex: 0,
+        }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
       <div style={{ fontSize: '0.7rem', color: tema.puntaje, fontWeight: 'bold', marginBottom: '4px' }}>
         {partido.label}
       </div>
@@ -114,11 +146,12 @@ function PartidoCard({ partido, resultados, setResultados, tema }) {
       }}>
         {editando ? '✅ Listo' : '✏️ Editar'}
       </button>
+      </div>
     </div>
   );
 }
 
-function Ronda({ titulo, partidos, resultados, setResultados, tema }) {
+function Ronda({ titulo, partidos, resultados, setResultados, tema, oscuro }) {
   return (
     <div style={{ marginBottom: '32px' }}>
       <h3 style={{ color: tema.puntaje, textAlign: 'center', marginBottom: '16px', letterSpacing: '1px' }}>
@@ -126,14 +159,14 @@ function Ronda({ titulo, partidos, resultados, setResultados, tema }) {
       </h3>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
         {partidos.map(p => (
-          <PartidoCard key={p.id} partido={p} resultados={resultados} setResultados={setResultados} tema={tema} />
+          <PartidoCard key={p.id} partido={p} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} />
         ))}
       </div>
     </div>
   );
 }
 
-function Eliminatoria({ resultados, setResultados }) {
+function Eliminatoria({ resultados, setResultados, oscuro }) {
     const tema = useContext(TemaContext);
     const { t } = useContext(IdiomaContext);
 
@@ -148,7 +181,7 @@ function Eliminatoria({ resultados, setResultados }) {
 
       {/* Copa del Mundo centrada */}
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-        <div style={{ fontSize: '6rem', lineHeight: 1 }}>🏆</div>
+      <img src={oscuro ? "/copa-oscuro.png" : "/copa-claro.png"} alt="Copa Mundial" style={{ width: '120px', height: '120px', objectFit: 'contain', opacity: 0.9 }} />
         <div style={{ color: tema.puntaje, fontWeight: 'bold', fontSize: '1rem', marginTop: '8px', letterSpacing: '2px' }}>
           {t.eliminatoria.copaTitulo}
         </div>
