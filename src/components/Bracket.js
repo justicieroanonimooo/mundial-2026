@@ -21,10 +21,10 @@ const infoPartidos = {
   103: { desc: '3er Puesto' }, 104: { desc: 'FINAL' },
 };
 
-const CARD_HEIGHT = 80;
-const CARD_WIDTH = 160;
-const RONDA_WIDTH = 180;
-const V_GAP_BASE = 20;
+const CARD_HEIGHT = 100;
+const CARD_WIDTH = 200;
+const RONDA_WIDTH = 210;
+const V_GAP_BASE = 60;
 
 const izquierda = [
   [73, 74, 75, 76, 77, 78, 79, 80],
@@ -160,13 +160,13 @@ function Bracket({ resultados, oscuro }) {
                 posiciones={posIzq}
                 resultados={resultados}
                 tema={tema}
-                offsetX={0}
+                offsetX={45}
                 espejo={false}
               />
             </g>
 
             {/* Centro — Copa y Final — centrado en x=1024 */}
-            <g transform={`translate(${centroX - CARD_WIDTH / 2}, ${alturaTotal / 2 - 60})`}>
+            <g transform={`translate(${centroX - CARD_WIDTH / 2}, ${alturaTotal / 2 - 98})`}>
               <image href={oscuro ? "/copa-oscuro.png" : "/copa-claro.png"} x={CARD_WIDTH / 2 - 180} y="-370" width="360" height="360" opacity="0.85" />
               <text x={CARD_WIDTH / 2} y="10" fontSize="10" fill={tema.puntaje} fontWeight="bold" textAnchor="middle">
                 {t.bracket.final}
@@ -191,7 +191,7 @@ function Bracket({ resultados, oscuro }) {
                 posiciones={posDer}
                 resultados={resultados}
                 tema={tema}
-                offsetX={anchoTotal - CARD_WIDTH}
+                offsetX={anchoTotal - CARD_WIDTH - -160}
                 espejo={true}
               />
             </g>
