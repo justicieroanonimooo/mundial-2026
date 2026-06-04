@@ -212,7 +212,7 @@ function Grupos({ resultados }) {
                 borderLeft: i < 2 ? `4px solid ${tema.puntaje}` : `4px solid transparent`,
                 transition: 'all 0.3s'
               }}>
-                <td style={{ padding: '12px', fontWeight: 'bold', color: tema.texto, whiteSpace: 'nowrap' }}>{equipo.nombre}</td>
+                <td style={{ padding: '12px', fontWeight: 'bold', color: tema.texto, whiteSpace: 'nowrap', minWidth: '180px' }}>{equipo.nombre}</td>
                 <td style={{ padding: '12px', textAlign: 'center', color: tema.texto }}>{equipo.pj}</td>
                 <td style={{ padding: '12px', textAlign: 'center', color: tema.texto }}>{equipo.g}</td>
                 <td style={{ padding: '12px', textAlign: 'center', color: tema.texto }}>{equipo.emp}</td>
