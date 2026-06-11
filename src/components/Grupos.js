@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { TemaContext, IdiomaContext } from '../App';
-import { getBandera, getAbrev, getNombre } from '../equipos';
+import { getBandera, getAbrev } from '../equipos';
 
 const grupos = {
   A: { equipos: ['México', 'Sudáfrica', 'Corea del Sur', 'República Checa'] },
