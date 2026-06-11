@@ -98,7 +98,7 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
       }}>
         <div style={{
           position: 'absolute', inset: 0,
-          background: oscuro ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.55)',
+          background: oscuro ? 'rgba(0,0,0,0.82)' : 'rgba(0,0,0,0.65)',
           zIndex: 0,
         }} />
         <div style={{ position: 'relative', zIndex: 1 }}>
@@ -125,11 +125,11 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
         </div>
       ) : (
         <div style={{ textAlign: 'center', padding: '6px 0' }}>
-          <div style={{ fontWeight: 'bold', color: tema.texto, fontSize: '0.85rem' }}>{res.local || '?'}</div>
-          <div style={{ color: jugado ? tema.puntaje : tema.subtexto, fontWeight: 'bold', fontSize: '1.1rem', margin: '2px 0' }}>
+          <div style={{ fontWeight: 'bold', color: 'white', fontSize: '0.85rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>{res.local || '?'}</div>
+          <div style={{ color: jugado ? '#4fc3f7' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '1.1rem', margin: '2px 0' }}>
             {jugado ? `${res.golesLocal} - ${res.golesVisita}` : 'vs'}
           </div>
-          <div style={{ fontWeight: 'bold', color: tema.texto, fontSize: '0.85rem' }}>{res.visita || '?'}</div>
+          <div style={{ fontWeight: 'bold', color: 'white', fontSize: '0.85rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>{res.visita || '?'}</div>
         </div>
       )}
 
