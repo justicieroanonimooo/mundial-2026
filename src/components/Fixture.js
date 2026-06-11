@@ -200,15 +200,34 @@ function Fixture({ resultados, setResultados }) {
                   <span style={{ fontWeight: 'bold', fontSize: '1rem', flex: 1, color: 'white' }}>{partido.visita}</span>
                 </div>
                 <div style={{ textAlign: 'center', marginTop: '10px' }}>
-                  <button onClick={() => setEditando(editando === partido.id ? null : partido.id)} style={{
-                    padding: '4px 16px',
-                    background: editando === partido.id ? tema.primario : 'rgba(255,255,255,0.2)',
-                    color: 'white',
-                    border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '0.8rem',
-                    transition: 'all 0.3s'
-                  }}>
-                    {editando === partido.id ? t.fixture.guardar : t.fixture.editar}
-                  </button>
+                  <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                    <button onClick={() => setEditando(editando === partido.id ? null : partido.id)} style={{
+                      padding: '4px 16px',
+                      background: editando === partido.id ? tema.primario : 'rgba(255,255,255,0.2)',
+                      color: 'white',
+                      border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '0.8rem',
+                      transition: 'all 0.3s'
+                    }}>
+                      {editando === partido.id ? t.fixture.guardar : t.fixture.editar}
+                    </button>
+                    {jugado && (
+                      <button onClick={() => {
+                        setResultados(prev => {
+                          const nuevos = { ...prev };
+                          delete nuevos[partido.id];
+                          return nuevos;
+                        });
+                      }} style={{
+                        padding: '4px 16px',
+                        background: 'rgba(255,0,0,0.4)',
+                        color: 'white',
+                        border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '0.8rem',
+                        transition: 'all 0.3s'
+                      }}>
+                        🗑️
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
