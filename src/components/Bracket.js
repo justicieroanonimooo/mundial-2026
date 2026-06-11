@@ -95,8 +95,10 @@ function PartidoBracket({ id, resultados, tema, x, y }) {
         </clipPath>
       </defs>
       <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" ry="8" fill={tema.tarjeta} stroke={jugado ? tema.puntaje : tema.borde} strokeWidth="1.5" />
-      {res.local && <image href={`/escudos/${getAbrevBracket(res.local)}.png`} x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.2" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipLeft${id})`} />}
-      {res.visita && <image href={`/escudos/${getAbrevBracket(res.visita)}.png`} x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.2" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipRight${id})`} />}
+      {res.local && <rect x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} fill="white" opacity="0.15" clipPath={`url(#clipLeft${id})`} />}
+{res.local && <image href={`/escudos/${getAbrevBracket(res.local)}.png`} x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipLeft${id})`} />}
+{res.visita && <rect x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} fill="white" opacity="0.15" clipPath={`url(#clipRight${id})`} />}
+{res.visita && <image href={`/escudos/${getAbrevBracket(res.visita)}.png`} x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipRight${id})`} />}
       <text x="8" y="14" fontSize="9" fill={tema.puntaje} fontWeight="bold">P{id}</text>
       <line x1="0" y1={CARD_HEIGHT / 2} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2} stroke={tema.borde} strokeWidth="1" />
       <text x="8" y="34" fontSize="11" fill={tema.texto} fontWeight="bold">{(res.local || '?').substring(0, 16)}</text>
