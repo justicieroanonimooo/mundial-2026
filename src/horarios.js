@@ -5,162 +5,154 @@
 // Centro USA (Dallas/Arlington, Kansas City, Houston): UTC-5 → sumar 5h
 // Pacífico USA (LA, Santa Clara, Seattle, Vancouver): UTC-7 → sumar 7h
 
-function toUTC(fecha, hora, offsetHoras) {
-    const [dia, mes] = fecha.split('/').map(Number);
-    const [h, m] = hora.split(':').map(Number);
-    const year = 2026;
-    const date = new Date(Date.UTC(year, mes - 1, dia, h + offsetHoras, m));
-    return date.toISOString();
-  }
-  
-  export const horariosPartidos = {
-    // ===== GRUPO A =====
-    1:  toUTC('11/06', '21:00', 6),  // México vs Sudáfrica - CDMX
-    2:  toUTC('12/06', '04:00', 6),  // Corea del Sur vs República Checa - Monterrey
-    3:  toUTC('19/06', '03:00', 6),  // México vs Corea del Sur - Guadalajara
-    4:  toUTC('18/06', '18:00', 4),  // República Checa vs Sudáfrica - Atlanta
-    5:  toUTC('25/06', '03:00', 4),  // República Checa vs México - Atlanta
-    6:  toUTC('25/06', '03:00', 4),  // Sudáfrica vs Corea del Sur - Seattle
-  
-    // ===== GRUPO B =====
-    7:  toUTC('12/06', '21:00', 7),  // Canadá vs Bosnia - Vancouver
-    8:  toUTC('13/06', '21:00', 5),  // Qatar vs Suiza - Houston
-    9:  toUTC('19/06', '00:00', 7),  // Canadá vs Qatar - Vancouver
-    10: toUTC('18/06', '21:00', 7),  // Suiza vs Bosnia - Los Ángeles
-    11: toUTC('24/06', '21:00', 7),  // Suiza vs Canadá - Vancouver
-    12: toUTC('24/06', '21:00', 7),  // Bosnia vs Qatar - Los Ángeles
-  
-    // ===== GRUPO C =====
-    13: toUTC('14/06', '00:00', 4),  // Brasil vs Marruecos - Miami
-    14: toUTC('14/06', '03:00', 4),  // Haití vs Escocia - Boston
-    15: toUTC('20/06', '02:30', 4),  // Brasil vs Haití - Philadelphia
-    16: toUTC('19/06', '00:00', 4),  // Escocia vs Marruecos - Boston
-    17: toUTC('25/06', '00:00', 4),  // Escocia vs Brasil - Boston
-    18: toUTC('25/06', '00:00', 4),  // Marruecos vs Haití - Atlanta
-  
-    // ===== GRUPO D =====
-    19: toUTC('13/06', '03:00', 4),  // Estados Unidos vs Paraguay - Santa Clara (ET)
-    20: toUTC('14/06', '06:00', 4),  // Australia vs Turquía - Atlanta
-    21: toUTC('19/06', '21:00', 4),  // Estados Unidos vs Australia - Seattle
-    22: toUTC('20/06', '05:00', 7),  // Turquía vs Paraguay - Santa Clara
-    23: toUTC('26/06', '04:00', 7),  // Turquía vs Estados Unidos - Seattle
-    24: toUTC('26/06', '04:00', 7),  // Paraguay vs Australia - Santa Clara
-  
-    // ===== GRUPO E =====
-    25: toUTC('14/06', '19:00', 5),  // Alemania vs Curazao - Kansas City
-    26: toUTC('15/06', '01:00', 4),  // Costa de Marfil vs Ecuador - Philadelphia
-    27: toUTC('20/06', '22:00', 5),  // Alemania vs Costa de Marfil - Toronto
-    28: toUTC('21/06', '02:00', 5),  // Ecuador vs Curazao - Kansas City
-    29: toUTC('25/06', '22:00', 4),  // Ecuador vs Alemania - Kansas City
-    30: toUTC('25/06', '22:00', 4),  // Curazao vs Costa de Marfil - Philadelphia
-  
-    // ===== GRUPO F =====
-    31: toUTC('14/06', '22:00', 5),  // Países Bajos vs Japón - Arlington
-    32: toUTC('15/06', '04:00', 6),  // Suecia vs Túnez - Monterrey
-    33: toUTC('20/06', '19:00', 5),  // Países Bajos vs Suecia - Houston
-    34: toUTC('21/06', '06:00', 6),  // Túnez vs Japón - Monterrey
-    35: toUTC('26/06', '01:00', 6),  // Túnez vs Países Bajos - Houston
-    36: toUTC('26/06', '01:00', 6),  // Japón vs Suecia - Monterrey
-  
-    // ===== GRUPO G =====
-    37: toUTC('15/06', '21:00', 7),  // Bélgica vs Egipto - Los Ángeles
-    38: toUTC('16/06', '03:00', 7),  // Irán vs Nueva Zelanda - Los Ángeles
-    39: toUTC('21/06', '21:00', 7),  // Bélgica vs Irán - Los Ángeles
-    40: toUTC('22/06', '03:00', 7),  // Nueva Zelanda vs Egipto - Vancouver
-    41: toUTC('27/06', '05:00', 7),  // Nueva Zelanda vs Bélgica - Vancouver
-    42: toUTC('27/06', '05:00', 7),  // Egipto vs Irán - Seattle
-  
-    // ===== GRUPO H =====
-    43: toUTC('15/06', '18:00', 4),  // España vs Cabo Verde - Atlanta
-    44: toUTC('16/06', '00:00', 4),  // Arabia Saudita vs Uruguay - Miami
-    45: toUTC('21/06', '18:00', 4),  // España vs Arabia Saudita - Atlanta
-    46: toUTC('22/06', '00:00', 4),  // Uruguay vs Cabo Verde - Miami
-    47: toUTC('27/06', '02:00', 5),  // Uruguay vs España - Guadalajara
-    48: toUTC('27/06', '02:00', 5),  // Cabo Verde vs Arabia Saudita - Houston
-  
-    // ===== GRUPO I =====
-    49: toUTC('16/06', '21:00', 4),  // Francia vs Senegal - New Jersey
-    50: toUTC('17/06', '00:00', 4),  // Irak vs Noruega - Boston
-    51: toUTC('22/06', '17:00', 4),  // Francia vs Irak - Philadelphia
-    52: toUTC('22/06', '20:00', 4),  // Noruega vs Senegal - New Jersey
-    53: toUTC('26/06', '21:00', 4),  // Noruega vs Francia - Boston
-    54: toUTC('26/06', '21:00', 4),  // Senegal vs Irak - Toronto
-  
-    // ===== GRUPO J =====
-    55: toUTC('17/06', '03:00', 5),  // Argentina vs Argelia - Kansas City
-    56: toUTC('17/06', '06:00', 7),  // Austria vs Jordania - Santa Clara
-    57: toUTC('22/06', '13:00', 5),  // Argentina vs Austria - Arlington
-    58: toUTC('22/06', '23:00', 7),  // Jordania vs Argelia - Santa Clara
-    59: toUTC('28/06', '04:00', 7),  // Jordania vs Argentina - Santa Clara
-    60: toUTC('28/06', '04:00', 5),  // Argelia vs Austria - Kansas City
-  
-    // ===== GRUPO K =====
-    61: toUTC('17/06', '19:00', 5),  // Portugal vs R.D. Congo - Houston
-    62: toUTC('18/06', '04:00', 6),  // Uzbekistán vs Colombia - Guadalajara
-    63: toUTC('23/06', '13:00', 5),  // Portugal vs Uzbekistán - Houston
-    64: toUTC('23/06', '22:00', 6),  // Colombia vs R.D. Congo - Guadalajara
-    65: toUTC('28/06', '01:30', 4),  // Colombia vs Portugal - Atlanta
-    66: toUTC('28/06', '01:30', 4),  // R.D. Congo vs Uzbekistán - Atlanta
-  
-    // ===== GRUPO L =====
-    67: toUTC('17/06', '22:00', 5),  // Inglaterra vs Croacia - Arlington
-    68: toUTC('18/06', '01:00', 4),  // Ghana vs Panamá - Toronto
-    69: toUTC('23/06', '16:00', 4),  // Inglaterra vs Ghana - Boston
-    70: toUTC('23/06', '19:00', 4),  // Panamá vs Croacia - Toronto
-    71: toUTC('27/06', '23:00', 4),  // Panamá vs Inglaterra - New Jersey
-    72: toUTC('27/06', '23:00', 4),  // Croacia vs Ghana - Philadelphia
-  
-    // ===== 16AVOS =====
-    73: toUTC('28/06', '15:00', 7),  // SoFi Stadium, LA
-    74: toUTC('29/06', '16:30', 4),  // Gillette Stadium, Boston
-    75: toUTC('29/06', '21:00', 6),  // Estadio BBVA, Monterrey
-    76: toUTC('29/06', '13:00', 5),  // NRG Stadium, Houston
-    77: toUTC('30/06', '17:00', 4),  // MetLife Stadium, NJ
-    78: toUTC('30/06', '13:00', 5),  // AT&T Stadium, Dallas
-    79: toUTC('30/06', '21:00', 6),  // Estadio Azteca, CDMX
-    80: toUTC('01/07', '12:00', 4),  // Mercedes-Benz, Atlanta
-    81: toUTC('01/07', '20:00', 7),  // Levi's Stadium, Santa Clara
-    82: toUTC('01/07', '16:00', 4),  // Lumen Field, Seattle
-    83: toUTC('02/07', '15:00', 7),  // BC Place, Vancouver
-    84: toUTC('02/07', '19:00', 5),  // Arrowhead, Kansas City
-    85: toUTC('03/07', '15:00', 4),  // BMO Field, Toronto
-    86: toUTC('03/07', '19:00', 7),  // Levi's Stadium, Santa Clara
-    87: toUTC('03/07', '15:00', 4),  // Lincoln Financial, Philadelphia
-    88: toUTC('03/07', '19:00', 6),  // Estadio Azteca, CDMX
-  
-    // ===== OCTAVOS =====
-    89: toUTC('04/07', '15:00', 5),  // AT&T Stadium, Dallas
-    90: toUTC('04/07', '19:00', 7),  // SoFi Stadium, LA
-    91: toUTC('05/07', '15:00', 4),  // Hard Rock, Miami
-    92: toUTC('05/07', '19:00', 4),  // Mercedes-Benz, Atlanta
-    93: toUTC('06/07', '15:00', 5),  // Arrowhead, Kansas City
-    94: toUTC('06/07', '19:00', 7),  // Lumen Field, Seattle
-    95: toUTC('07/07', '15:00', 4),  // Gillette Stadium, Boston
-    96: toUTC('07/07', '12:00', 7),  // BC Place, Vancouver
-  
-    // ===== CUARTOS =====
-    97: toUTC('09/07', '15:00', 4),  // Gillette Stadium, Boston
-    98: toUTC('10/07', '15:00', 7),  // SoFi Stadium, LA
-    99: toUTC('11/07', '15:00', 4),  // Hard Rock, Miami
-    100: toUTC('11/07', '15:00', 5), // Arrowhead, Kansas City
-  
-    // ===== SEMIS =====
-    101: toUTC('14/07', '15:00', 5), // AT&T Stadium, Dallas
-    102: toUTC('15/07', '15:00', 4), // Mercedes-Benz, Atlanta
-  
-    // ===== TERCER PUESTO Y FINAL =====
-    103: toUTC('18/07', '15:00', 4), // Hard Rock, Miami
-    104: toUTC('19/07', '15:00', 4), // MetLife Stadium, NJ
-  };
-  
-  export function formatearHoraLocal(isoString) {
-    const date = new Date(isoString);
-    return date.toLocaleString([], {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    });
-  }
+export const horariosPartidos = {
+  // ===== GRUPO A =====
+  1:  '2026-06-11T19:00:00Z',  // México vs Sudáfrica
+  2:  '2026-06-12T02:00:00Z',  // Corea del Sur vs República Checa
+  3:  '2026-06-19T01:00:00Z',  // México vs Corea del Sur
+  4:  '2026-06-18T16:00:00Z',  // República Checa vs Sudáfrica
+  5:  '2026-06-25T01:00:00Z',  // Czechia vs México
+  6:  '2026-06-25T01:00:00Z',  // Sudáfrica vs Corea del Sur
+
+  // ===== GRUPO B =====
+  7:  '2026-06-12T19:00:00Z',  // Canadá vs Bosnia
+  8:  '2026-06-13T19:00:00Z',  // Qatar vs Suiza
+  9:  '2026-06-18T22:00:00Z',  // Canadá vs Qatar
+  10: '2026-06-18T19:00:00Z',  // Suiza vs Bosnia
+  11: '2026-06-24T19:00:00Z',  // Suiza vs Canadá
+  12: '2026-06-24T19:00:00Z',  // Bosnia vs Qatar
+
+  // ===== GRUPO C =====
+  13: '2026-06-13T22:00:00Z',  // Brasil vs Marruecos
+  14: '2026-06-14T01:00:00Z',  // Haití vs Escocia
+  15: '2026-06-20T00:30:00Z',  // Brasil vs Haití
+  16: '2026-06-19T22:00:00Z',  // Escocia vs Marruecos
+  17: '2026-06-24T22:00:00Z',  // Escocia vs Brasil
+  18: '2026-06-24T22:00:00Z',  // Marruecos vs Haití
+
+  // ===== GRUPO D =====
+  19: '2026-06-13T01:00:00Z',  // Estados Unidos vs Paraguay
+  20: '2026-06-14T04:00:00Z',  // Australia vs Turquía
+  21: '2026-06-19T19:00:00Z',  // Estados Unidos vs Australia
+  22: '2026-06-20T03:00:00Z',  // Turquía vs Paraguay
+  23: '2026-06-26T02:00:00Z',  // Turquía vs Estados Unidos
+  24: '2026-06-26T02:00:00Z',  // Paraguay vs Australia
+
+  // ===== GRUPO E =====
+  25: '2026-06-14T17:00:00Z',  // Alemania vs Curazao
+  26: '2026-06-14T23:00:00Z',  // Costa de Marfil vs Ecuador
+  27: '2026-06-20T20:00:00Z',  // Alemania vs Costa de Marfil
+  28: '2026-06-21T00:00:00Z',  // Ecuador vs Curazao
+  29: '2026-06-25T20:00:00Z',  // Ecuador vs Alemania
+  30: '2026-06-25T20:00:00Z',  // Curazao vs Costa de Marfil
+
+  // ===== GRUPO F =====
+  31: '2026-06-14T20:00:00Z',  // Países Bajos vs Japón
+  32: '2026-06-15T02:00:00Z',  // Suecia vs Túnez
+  33: '2026-06-20T17:00:00Z',  // Países Bajos vs Suecia
+  34: '2026-06-21T04:00:00Z',  // Túnez vs Japón
+  35: '2026-06-25T23:00:00Z',  // Japón vs Suecia
+  36: '2026-06-25T23:00:00Z',  // Túnez vs Países Bajos
+
+  // ===== GRUPO G =====
+  37: '2026-06-15T19:00:00Z',  // Bélgica vs Egipto
+  38: '2026-06-16T01:00:00Z',  // Irán vs Nueva Zelanda
+  39: '2026-06-21T19:00:00Z',  // Bélgica vs Irán
+  40: '2026-06-22T01:00:00Z',  // Nueva Zelanda vs Egipto
+  41: '2026-06-27T03:00:00Z',  // Egipto vs Irán
+  42: '2026-06-27T03:00:00Z',  // Nueva Zelanda vs Bélgica
+
+  // ===== GRUPO H =====
+  43: '2026-06-15T16:00:00Z',  // España vs Cabo Verde
+  44: '2026-06-15T22:00:00Z',  // Arabia Saudí vs Uruguay
+  45: '2026-06-21T16:00:00Z',  // España vs Arabia Saudí
+  46: '2026-06-21T22:00:00Z',  // Uruguay vs Cabo Verde
+  47: '2026-06-27T00:00:00Z',  // Uruguay vs España
+  48: '2026-06-27T00:00:00Z',  // Cabo Verde vs Arabia Saudí
+
+  // ===== GRUPO I =====
+  49: '2026-06-16T19:00:00Z',  // Francia vs Senegal
+  50: '2026-06-16T22:00:00Z',  // Irak vs Noruega
+  51: '2026-06-22T21:00:00Z',  // Francia vs Irak
+  52: '2026-06-23T00:00:00Z',  // Noruega vs Senegal
+  53: '2026-06-26T19:00:00Z',  // Noruega vs Francia
+  54: '2026-06-26T19:00:00Z',  // Senegal vs Irak
+
+  // ===== GRUPO J =====
+  55: '2026-06-17T01:00:00Z',  // Argentina vs Argelia
+  56: '2026-06-17T04:00:00Z',  // Austria vs Jordania
+  57: '2026-06-22T17:00:00Z',  // Argentina vs Austria
+  58: '2026-06-23T03:00:00Z',  // Jordania vs Argelia
+  59: '2026-06-28T02:00:00Z',  // Jordania vs Argentina
+  60: '2026-06-28T02:00:00Z',  // Argelia vs Austria
+
+  // ===== GRUPO K =====
+  61: '2026-06-17T17:00:00Z',  // Portugal vs R.D. del Congo
+  62: '2026-06-18T02:00:00Z',  // Uzbekistán vs Colombia
+  63: '2026-06-23T17:00:00Z',  // Portugal vs Uzbekistán
+  64: '2026-06-24T02:00:00Z',  // Colombia vs R.D. del Congo
+  65: '2026-06-27T23:30:00Z',  // Colombia vs Portugal
+  66: '2026-06-27T23:30:00Z',  // R.D. del Congo vs Uzbekistán
+
+  // ===== GRUPO L =====
+  67: '2026-06-17T20:00:00Z',  // Inglaterra vs Croacia
+  68: '2026-06-17T23:00:00Z',  // Ghana vs Panamá
+  69: '2026-06-23T20:00:00Z',  // Inglaterra vs Ghana
+  70: '2026-06-23T23:00:00Z',  // Panamá vs Croacia
+  71: '2026-06-27T21:00:00Z',  // Panamá vs Inglaterra
+  72: '2026-06-27T21:00:00Z',  // Croacia vs Ghana
+
+  // ===== 16AVOS =====
+  73: '2026-06-28T19:00:00Z',  // SoFi Stadium, LA
+  74: '2026-06-29T20:30:00Z',  // Gillette Stadium, Boston
+  75: '2026-06-30T01:00:00Z',  // Estadio BBVA, Monterrey
+  76: '2026-06-29T17:00:00Z',  // NRG Stadium, Houston
+  77: '2026-06-30T21:00:00Z',  // MetLife Stadium, NJ
+  78: '2026-06-30T17:00:00Z',  // AT&T Stadium, Dallas
+  79: '2026-07-01T01:00:00Z',  // Estadio Azteca, CDMX
+  80: '2026-07-01T16:00:00Z',  // Mercedes-Benz, Atlanta
+  81: '2026-07-02T00:00:00Z',  // Levi's Stadium, Santa Clara
+  82: '2026-07-01T20:00:00Z',  // Lumen Field, Seattle
+  83: '2026-07-02T23:00:00Z',  // BMO Field, Toronto
+  84: '2026-07-02T19:00:00Z',  // SoFi Stadium, LA
+  85: '2026-07-03T03:00:00Z',  // BC Place, Vancouver
+  86: '2026-07-03T22:00:00Z',  // Hard Rock, Miami
+  87: '2026-07-04T01:30:00Z',  // Arrowhead, Kansas City
+  88: '2026-07-03T18:00:00Z',  // AT&T Stadium, Dallas
+
+  // ===== OCTAVOS =====
+  89: '2026-07-04T21:00:00Z',  // Lincoln Financial, Philadelphia
+  90: '2026-07-04T17:00:00Z',  // NRG Stadium, Houston
+  91: '2026-07-05T20:00:00Z',  // MetLife Stadium, NJ
+  92: '2026-07-06T00:00:00Z',  // Estadio Azteca, CDMX
+  93: '2026-07-06T19:00:00Z',  // AT&T Stadium, Dallas
+  94: '2026-07-07T00:00:00Z',  // Lumen Field, Seattle
+  95: '2026-07-07T16:00:00Z',  // Mercedes-Benz, Atlanta
+  96: '2026-07-07T20:00:00Z',  // BC Place, Vancouver
+
+  // ===== CUARTOS =====
+  97: '2026-07-09T20:00:00Z',  // Gillette Stadium, Boston
+  98: '2026-07-10T19:00:00Z',  // SoFi Stadium, LA
+  99: '2026-07-11T21:00:00Z',  // Hard Rock, Miami
+  100: '2026-07-12T01:00:00Z', // Arrowhead, Kansas City
+
+  // ===== SEMIS =====
+  101: '2026-07-14T19:00:00Z', // AT&T Stadium, Dallas
+  102: '2026-07-15T19:00:00Z', // Mercedes-Benz, Atlanta
+
+  // ===== TERCER PUESTO Y FINAL =====
+  103: '2026-07-18T21:00:00Z', // Hard Rock, Miami
+  104: '2026-07-19T19:00:00Z', // MetLife Stadium, NJ
+};
+
+export function formatearHoraLocal(isoString) {
+  const date = new Date(isoString);
+  return date.toLocaleString([], {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+}

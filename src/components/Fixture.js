@@ -192,7 +192,7 @@ function Fixture({ resultados, setResultados }) {
                           style={{ width: '40px', textAlign: 'center', fontSize: '1.2rem', border: `2px solid ${tema.primario}`, borderRadius: '6px', padding: '4px', background: 'rgba(0,0,0,0.5)', color: 'white' }} />
                       </>
                     ) : (
-                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: jugado ? tema.puntaje : 'rgba(255,255,255,0.5)' }}>
+                        <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'white' }}>
                         {jugado ? `${res.golesLocal} - ${res.golesVisita}` : 'vs'}
                       </span>
                     )}
