@@ -1,6 +1,29 @@
 import React, { useContext, useRef } from 'react';
 import { TemaContext, IdiomaContext } from '../App';
 
+function getAbrevBracket(nombre) {
+  const mapa = {
+    'México': 'MEX', 'Argentina': 'ARG', 'España': 'ESP',
+    'Brasil': 'BRA', 'Francia': 'FRA', 'Inglaterra': 'ENG',
+    'Alemania': 'GER', 'Portugal': 'POR', 'Países Bajos': 'NED',
+    'Uruguay': 'URU', 'Colombia': 'COL', 'Croacia': 'CRO',
+    'Senegal': 'SEN', 'Marruecos': 'MAR', 'Japón': 'JPN',
+    'Corea del Sur': 'KOR', 'Australia': 'AUS', 'Estados Unidos': 'USA',
+    'Canadá': 'CAN', 'Ecuador': 'ECU', 'Suiza': 'SUI',
+    'Bélgica': 'BEL', 'Turquía': 'TUR', 'Arabia Saudí': 'KSA',
+    'Ghana': 'GHA', 'Túnez': 'TUN', 'Suecia': 'SWE',
+    'Noruega': 'NOR', 'Austria': 'AUT', 'Paraguay': 'PAR',
+    'Irán': 'IRN', 'Irak': 'IRQ', 'Nueva Zelanda': 'NZL',
+    'Escocia': 'SCO', 'Haití': 'HAI', 'Sudáfrica': 'RSA',
+    'República Checa': 'CZE', 'Bosnia y Herzegovina': 'BIH',
+    'Catar': 'QAT', 'Costa de Marfil': 'CIV', 'Curazao': 'CUW',
+    'Cabo Verde': 'CPV', 'Argelia': 'ALG', 'Jordania': 'JOR',
+    'R.D. del Congo': 'COD', 'Uzbekistán': 'UZB', 'Panamá': 'PAN',
+    'Egipto': 'EGY',
+  };
+  return mapa[nombre] || nombre.substring(0, 3).toUpperCase();
+}
+
 // eslint-disable-next-line no-unused-vars
 const infoPartidos = {
   73: { desc: '2º A vs 2º B' }, 74: { desc: '1º E vs 3º' },
@@ -63,7 +86,17 @@ function PartidoBracket({ id, resultados, tema, x, y }) {
 
   return (
     <g transform={`translate(${x}, ${y})`}>
+      <defs>
+        <clipPath id={`clipLeft${id}`}>
+          <rect x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} rx="8" />
+        </clipPath>
+        <clipPath id={`clipRight${id}`}>
+          <rect x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} rx="8" />
+        </clipPath>
+      </defs>
       <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" ry="8" fill={tema.tarjeta} stroke={jugado ? tema.puntaje : tema.borde} strokeWidth="1.5" />
+      {res.local && <image href={`/escudos/${getAbrevBracket(res.local)}.png`} x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.2" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipLeft${id})`} />}
+      {res.visita && <image href={`/escudos/${getAbrevBracket(res.visita)}.png`} x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.2" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipRight${id})`} />}
       <text x="8" y="14" fontSize="9" fill={tema.puntaje} fontWeight="bold">P{id}</text>
       <line x1="0" y1={CARD_HEIGHT / 2} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2} stroke={tema.borde} strokeWidth="1" />
       <text x="8" y="34" fontSize="11" fill={tema.texto} fontWeight="bold">{(res.local || '?').substring(0, 16)}</text>
