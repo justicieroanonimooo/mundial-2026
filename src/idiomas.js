@@ -5,6 +5,7 @@ export const idiomas = {
       nav: {
         grupos: '📊 Grupos',
         fixture: '📅 Fixture',
+        hoy: '📅 Hoy',
         eliminatoria: '🏆 Eliminatoria',
         bracket: '📊 Bracket',
       },
@@ -58,6 +59,7 @@ export const idiomas = {
       nav: {
         grupos: '📊 Groups',
         fixture: '📅 Schedule',
+        hoy: '📅 Today',
         eliminatoria: '🏆 Knockout',
         bracket: '📊 Bracket',
       },

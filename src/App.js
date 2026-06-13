@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Grupos from './components/Grupos';
 import Fixture from './components/Fixture';
+import Hoy from './components/Hoy';
 import Eliminatoria from './components/Eliminatoria';
 import Bracket from './components/Bracket';
 import { idiomas } from './idiomas';
 import { clasificacionGrupos, grupoCompleto, progresionEliminatoria } from './clasificacion';
+
 import './App.css';
 
 export const TemaContext = React.createContext();
@@ -189,6 +191,7 @@ function App() {
   const botones = [
     { id: 'grupos', label: t.nav.grupos },
     { id: 'fixture', label: t.nav.fixture },
+    { id: 'hoy', label: '📅 Hoy' },
     { id: 'eliminatoria', label: t.nav.eliminatoria },
     { id: 'bracket', label: t.nav.bracket },
   ];
@@ -222,8 +225,10 @@ function App() {
 
           {seccion === 'grupos' && <Grupos resultados={resultados} />}
           {seccion === 'fixture' && <Fixture resultados={resultados} setResultados={setResultados} />}
+          {seccion === 'hoy' && <Hoy resultados={resultados} setResultados={setResultados} />}
           {seccion === 'eliminatoria' && <Eliminatoria resultados={resultados} setResultados={setResultados} oscuro={oscuro} />}
           {seccion === 'bracket' && <Bracket resultados={resultados} setResultados={setResultados} oscuro={oscuro} />}
+
         </div>
       </IdiomaContext.Provider>
     </TemaContext.Provider>
