@@ -218,7 +218,7 @@ function Hoy({ resultados, setResultados }) {
   const tema = useContext(TemaContext);
   const { t } = useContext(IdiomaContext);
   const ahora = new Date();
-  const dosHoras = 2 * 60 * 60 * 1000;
+  const dosHoras = 3 * 60 * 60 * 1000;
 
   // Ordenar todos por horario
   const ordenados = [...todosLosPartidos]
