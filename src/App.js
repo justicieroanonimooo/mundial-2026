@@ -84,7 +84,7 @@ function calcularTablaGrupo(grupo, resultados) {
 
 function App() {
   const [seccion, setSeccion] = useState('grupos');
-  const [oscuro, setOscuro] = useState(false);
+  const [oscuro, setOscuro] = useState(true);
   const [idiomaActual, setIdiomaActual] = useState(() => {
     return localStorage.getItem('idioma_mundial') || 'es';
   });
