@@ -191,9 +191,10 @@ function App() {
   const botones = [
     { id: 'grupos', label: t.nav.grupos },
     { id: 'fixture', label: t.nav.fixture },
-    { id: 'hoy', label: '📅 Hoy' },
+    { id: 'hoy', label: t.nav.hoy },
     { id: 'eliminatoria', label: t.nav.eliminatoria },
     { id: 'bracket', label: t.nav.bracket },
+    
   ];
 
   return (
