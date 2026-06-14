@@ -158,7 +158,7 @@ function TarjetaPartido({ partido, resultados, setResultados, tema, enCurso }) {
         {enCurso && (
           <div style={{ textAlign: 'center', marginBottom: '4px' }}>
             <span style={{ background: 'rgba(0,255,100,0.3)', color: '#00ff64', fontSize: '0.7rem', fontWeight: 'bold', padding: '2px 10px', borderRadius: '20px' }}>
-              🔴 🔴 {t.header.titulo.includes('FIFA World') ? 'LIVE' : 'EN VIVO'}
+              🔴 {t.header.titulo.includes('FIFA World') ? 'LIVE' : 'EN VIVO'}
             </span>
           </div>
         )}
