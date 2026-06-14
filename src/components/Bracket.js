@@ -80,7 +80,7 @@ function calcularPosiciones(rondas) {
   return posiciones;
 }
 
-function PartidoBracket({ id, resultados, tema, x, y }) {
+function PartidoBracket({ id, resultados, tema, x, y, espejo }) {
   const res = resultados[id] || {};
   const jugado = res.local && res.visita && res.golesLocal !== '' && res.golesLocal !== undefined;
 
@@ -99,12 +99,12 @@ function PartidoBracket({ id, resultados, tema, x, y }) {
 {res.local && <image href={`/escudos/${getAbrevBracket(res.local)}.png`} x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipLeft${id})`} />}
 {res.visita && <rect x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} fill="white" opacity="0.15" clipPath={`url(#clipRight${id})`} />}
 {res.visita && <image href={`/escudos/${getAbrevBracket(res.visita)}.png`} x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipRight${id})`} />}
-      <text x="8" y="14" fontSize="9" fill={tema.puntaje} fontWeight="bold">P{id}</text>
+      <text x={espejo ? CARD_WIDTH - 8 : 8} y="14" fontSize="9" fill={tema.puntaje} fontWeight="bold" textAnchor={espejo ? "end" : "start"}>P{id}</text>
       <line x1="0" y1={CARD_HEIGHT / 2} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2} stroke={tema.borde} strokeWidth="1" />
-      <text x="8" y="34" fontSize="11" fill={tema.texto} fontWeight="bold">{(res.local || '?').substring(0, 16)}</text>
-      {jugado && <text x={CARD_WIDTH - 10} y="34" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor="end">{res.golesLocal}</text>}
-      <text x="8" y="64" fontSize="11" fill={tema.texto}>{(res.visita || '?').substring(0, 16)}</text>
-      {jugado && <text x={CARD_WIDTH - 10} y="64" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor="end">{res.golesVisita}</text>}
+      <text x={espejo ? CARD_WIDTH - 8 : 8} y="34" fontSize={res.local ? "11" : "7"} fill={tema.texto} fontWeight="bold" textAnchor={espejo ? "end" : "start"}>{(res.local || infoPartidos[id]?.desc.split(' vs ')[0] || '?').substring(0, 22)}</text>
+      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="34" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.golesLocal}</text>}
+      <text x={espejo ? CARD_WIDTH - 8 : 8} y="64" fontSize={res.visita ? "11" : "7"} fill={tema.texto} textAnchor={espejo ? "end" : "start"}>{(res.visita || infoPartidos[id]?.desc.split(' vs ')[1] || '?').substring(0, 22)}</text>
+      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="64" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.golesVisita}</text>}
     </g>
   );
 }
@@ -121,7 +121,7 @@ function BracketLado({ rondas, posiciones, resultados, tema, offsetX, espejo }) 
       const y = posiciones[rondaIdx][partidoIdx];
 
       elementos.push(
-        <PartidoBracket key={`card-${id}`} id={id} resultados={resultados} tema={tema} x={x} y={y} />
+        <PartidoBracket key={`card-${id}`} id={id} resultados={resultados} tema={tema} x={x} y={y} espejo={espejo} />
       );
 
       if (rondaIdx < rondas.length - 1) {
@@ -207,16 +207,16 @@ function Bracket({ resultados, oscuro }) {
                 {t.bracket.final}
               </text>
               <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke="#FFD700" strokeWidth="2" y="20" />
-              <text x="8" y="38" fontSize="9" fill="#FFD700" fontWeight="bold">P104</text>
+              <text x={CARD_WIDTH/2} y="38" fontSize="9" fill="#FFD700" fontWeight="bold" textAnchor="middle">P104</text>
               <line x1="0" y1={CARD_HEIGHT / 2 + 20} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 20} stroke={tema.borde} strokeWidth="1" />
-              <text x="8" y="54" fontSize="11" fill={tema.texto} fontWeight="bold">?</text>
-              <text x="8" y="84" fontSize="11" fill={tema.texto}>?</text>
+              <text x={CARD_WIDTH/2} y="54" fontSize="7" fill={tema.texto} fontWeight="bold" textAnchor="middle">Gan. P101</text>
+              <text x={CARD_WIDTH/2} y="84" fontSize="7" fill={tema.texto} textAnchor="middle">Gan. P102</text>
               <text x={CARD_WIDTH / 2} y="130" fontSize="10" fill={tema.subtexto} textAnchor="middle">{t.bracket.tercero}</text>
               <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke={tema.borde} strokeWidth="1.5" y="140" />
-              <text x="8" y="158" fontSize="9" fill={tema.puntaje} fontWeight="bold">P103</text>
+              <text x={CARD_WIDTH/2} y="158" fontSize="9" fill={tema.puntaje} fontWeight="bold" textAnchor="middle">P103</text>
               <line x1="0" y1={CARD_HEIGHT / 2 + 140} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 140} stroke={tema.borde} strokeWidth="1" />
-              <text x="8" y="174" fontSize="11" fill={tema.texto} fontWeight="bold">?</text>
-              <text x="8" y="204" fontSize="11" fill={tema.texto}>?</text>
+              <text x={CARD_WIDTH/2} y="174" fontSize="7" fill={tema.texto} fontWeight="bold" textAnchor="middle">Per. P101</text>
+              <text x={CARD_WIDTH/2} y="204" fontSize="7" fill={tema.texto} textAnchor="middle">Per. P102</text>
             </g>
 
             {/* Lado derecho — termina en x=2048 */}

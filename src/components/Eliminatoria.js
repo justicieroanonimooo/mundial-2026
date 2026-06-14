@@ -125,11 +125,15 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
         </div>
       ) : (
         <div style={{ textAlign: 'center', padding: '6px 0' }}>
-          <div style={{ fontWeight: 'bold', color: 'white', fontSize: '0.85rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>{res.local || '?'}</div>
+          <div style={{ fontWeight: 'bold', color: 'white', fontSize: res.local ? '0.85rem' : '0.65rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
+            {res.local || partido.desc.split(' vs ')[0]}
+          </div>
           <div style={{ color: jugado ? '#4fc3f7' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '1.1rem', margin: '2px 0' }}>
             {jugado ? `${res.golesLocal} - ${res.golesVisita}` : 'vs'}
           </div>
-          <div style={{ fontWeight: 'bold', color: 'white', fontSize: '0.85rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>{res.visita || '?'}</div>
+          <div style={{ fontWeight: 'bold', color: 'white', fontSize: res.visita ? '0.85rem' : '0.65rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
+            {res.visita || partido.desc.split(' vs ')[1]}
+          </div>
         </div>
       )}
 
