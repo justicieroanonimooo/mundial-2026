@@ -133,7 +133,7 @@ function etiqueta(grupo) {
   return map[grupo] || `Grupo ${grupo}`;
 }
 
-function TarjetaPartido({ partido, resultados, setResultados, tema, enCurso }) {
+function TarjetaPartido({ partido, resultados, setResultados, tema, enCurso, t }) {
   const [editando, setEditando] = useState(false);
   const res = resultados[partido.id] || {};
   const localNombre = res.local || partido.local;
@@ -254,6 +254,7 @@ function Hoy({ resultados, setResultados }) {
             setResultados={setResultados}
             tema={tema}
             enCurso={enCurso}
+            t={t}
           />
         );
       })}
