@@ -30,7 +30,7 @@ const todosLosPartidos = {
     { id: 7, local: 'Canadá', visita: 'Bosnia y Herzegovina' },
     { id: 8, local: 'Catar', visita: 'Suiza' },
     { id: 9, local: 'Canadá', visita: 'Catar' },
-    { id: 10, local: 'Bosnia y Herzegovina', visita: 'Suiza' },
+    { id: 10, local: 'Suiza', visita: 'Bosnia y Herzegovina' },
     { id: 11, local: 'Canadá', visita: 'Suiza' },
     { id: 12, local: 'Bosnia y Herzegovina', visita: 'Catar' },
   ],
