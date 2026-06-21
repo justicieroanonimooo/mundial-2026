@@ -84,6 +84,7 @@ function calcularTablaGrupo(grupo, resultados) {
 
 function App() {
   const [seccion, setSeccion] = useState('grupos');
+  const [grupoActivo, setGrupoActivo] = useState('A');
   const [oscuro, setOscuro] = useState(true);
   const [idiomaActual, setIdiomaActual] = useState(() => {
     return localStorage.getItem('idioma_mundial') || 'es';
@@ -224,8 +225,8 @@ function App() {
             ))}
           </nav>
 
-          {seccion === 'grupos' && <Grupos resultados={resultados} />}
-          {seccion === 'fixture' && <Fixture resultados={resultados} setResultados={setResultados} />}
+          {seccion === 'grupos' && <Grupos resultados={resultados} grupoActivo={grupoActivo} setGrupoActivo={setGrupoActivo} />}
+          {seccion === 'fixture' && <Fixture resultados={resultados} setResultados={setResultados} grupoActivo={grupoActivo} setGrupoActivo={setGrupoActivo} />}
           {seccion === 'hoy' && <Hoy resultados={resultados} setResultados={setResultados} />}
           {seccion === 'eliminatoria' && <Eliminatoria resultados={resultados} setResultados={setResultados} oscuro={oscuro} />}
           {seccion === 'bracket' && <Bracket resultados={resultados} setResultados={setResultados} oscuro={oscuro} />}
