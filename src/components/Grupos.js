@@ -157,10 +157,9 @@ function calcularTabla(grupo, resultados) {
     .sort((a, b) => b.pts - a.pts || b.dif - a.dif || b.gf - a.gf);
 }
 
-function Grupos({ resultados }) {
+function Grupos({ resultados, grupoActivo, setGrupoActivo }) {
   const tema = useContext(TemaContext);
   const { t } = useContext(IdiomaContext);
-  const [grupoActivo, setGrupoActivo] = useState('A');
   const tabla = calcularTabla(grupoActivo, resultados);
 
   return (

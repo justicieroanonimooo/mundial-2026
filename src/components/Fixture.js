@@ -121,10 +121,9 @@ const partidos = {
   ],
 };
 
-function Fixture({ resultados, setResultados }) {
+function Fixture({ resultados, setResultados, grupoActivo, setGrupoActivo }) {
   const tema = useContext(TemaContext);
   const { t } = useContext(IdiomaContext);
-  const [grupoActivo, setGrupoActivo] = useState('A');
   const [editando, setEditando] = useState(null);
 
   const actualizarResultado = (id, campo, valor) => {
