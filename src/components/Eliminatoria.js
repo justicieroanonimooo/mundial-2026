@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { TemaContext, IdiomaContext } from '../App';
 import { horariosPartidos, formatearHoraLocal } from '../horarios';
+import { gruposValidosTercero, getTercerosDisponibles } from '../terceros';
+import { getAbrev, getBandera } from '../equipos';
 
 const imagenesEstadios = {
     'Ciudad de México': '/estadio-azteca.jpg',
@@ -72,12 +74,28 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
   const res = resultados[partido.id] || {};
   const jugado = res.local && res.visita && res.golesLocal !== undefined && res.golesVisita !== undefined && res.golesLocal !== '' && res.golesVisita !== '';
 
+  const necesitaTercero = gruposValidosTercero[partido.id];
+
   const actualizar = (campo, valor) => {
     setResultados(prev => ({
       ...prev,
       [partido.id]: { ...prev[partido.id], [campo]: valor }
     }));
   };
+
+  let opcionesTercero = [];
+  if (necesitaTercero) {
+    const todosLosTerceros = getTercerosDisponibles(resultados);
+    const usadosEnOtrosPartidos = Object.entries(resultados)
+      .filter(([id]) => gruposValidosTercero[id] && parseInt(id) !== partido.id)
+      .map(([, r]) => r.visita)
+      .filter(Boolean);
+
+    opcionesTercero = todosLosTerceros.filter(t =>
+      necesitaTercero.includes(t.grupo) &&
+      (!usadosEnOtrosPartidos.includes(t.nombre) || t.nombre === res.visita)
+    );
+  }
 
   return (
     <div style={{
@@ -120,8 +138,20 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
             <input type="number" min="0" max="20" placeholder="0" value={res.golesVisita ?? ''} onChange={e => actualizar('golesVisita', e.target.value)}
               style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
           </div>
-          <input placeholder="Equipo visita" value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
-            style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.8rem', boxSizing: 'border-box' }} />
+          {necesitaTercero ? (
+            <select value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
+              style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.75rem', boxSizing: 'border-box' }}>
+              <option value="">-- 3º {necesitaTercero.join('/')} --</option>
+              {opcionesTercero.map(t => (
+                <option key={t.nombre} value={t.nombre}>
+                  {getBandera(t.nombre)} {getAbrev(t.nombre)} ({t.pts}pts)
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input placeholder="Equipo visita" value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
+              style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.8rem', boxSizing: 'border-box' }} />
+          )}
         </div>
       ) : (
         <div style={{ textAlign: 'center', padding: '6px 0' }}>

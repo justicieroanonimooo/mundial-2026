@@ -7,6 +7,7 @@ import Eliminatoria from './components/Eliminatoria';
 import Bracket from './components/Bracket';
 import { idiomas } from './idiomas';
 import { clasificacionGrupos, grupoCompleto, progresionEliminatoria } from './clasificacion';
+import SelectorTerceros from './components/SelectorTerceros';
 
 import './App.css';
 
@@ -89,10 +90,19 @@ function App() {
   const [idiomaActual, setIdiomaActual] = useState(() => {
     return localStorage.getItem('idioma_mundial') || 'es';
   });
+  const [terceroSeleccionados, setTerceroSeleccionados] = useState(() => {
+    const guardados = localStorage.getItem('terceros_mundial');
+    return guardados ? JSON.parse(guardados) : {};
+  });
+
   const [resultados, setResultados] = useState(() => {
     const guardados = localStorage.getItem('resultados_mundial');
     return guardados ? JSON.parse(guardados) : {};
   });
+
+  useEffect(() => {
+    localStorage.setItem('terceros_mundial', JSON.stringify(terceroSeleccionados));
+  }, [terceroSeleccionados]);
 
   useEffect(() => {
     localStorage.setItem('resultados_mundial', JSON.stringify(resultados));
@@ -163,6 +173,18 @@ function App() {
           nuevosResultados[prog.perdedor.partido] = { ...destinoPer, [prog.perdedor.rol]: perdedor };
           huboCambios = true;
         }
+      }
+    });
+
+    // Asignar terceros seleccionados manualmente
+    Object.entries(terceroSeleccionados).forEach(([partidoId, nombreEquipo]) => {
+      if (!nombreEquipo) return;
+      const id = parseInt(partidoId);
+      const destino = nuevosResultados[id] || {};
+      // El tercero siempre va como "visita" en estos partidos (ver estructura: 1º Grupo X vs 3º)
+      if (destino.visita !== nombreEquipo) {
+        nuevosResultados[id] = { ...destino, visita: nombreEquipo };
+        huboCambios = true;
       }
     });
 
