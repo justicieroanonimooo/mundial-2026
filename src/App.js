@@ -99,9 +99,10 @@ function App() {
     return guardados ? JSON.parse(guardados) : {};
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     localStorage.setItem('terceros_mundial', JSON.stringify(terceroSeleccionados));
-  }, [terceroSeleccionados]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('resultados_mundial', JSON.stringify(resultados));
