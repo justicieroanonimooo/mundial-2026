@@ -7,7 +7,6 @@ import Eliminatoria from './components/Eliminatoria';
 import Bracket from './components/Bracket';
 import { idiomas } from './idiomas';
 import { clasificacionGrupos, grupoCompleto, progresionEliminatoria } from './clasificacion';
-import SelectorTerceros from './components/SelectorTerceros';
 
 import './App.css';
 
@@ -90,7 +89,7 @@ function App() {
   const [idiomaActual, setIdiomaActual] = useState(() => {
     return localStorage.getItem('idioma_mundial') || 'es';
   });
-  const [terceroSeleccionados, setTerceroSeleccionados] = useState(() => {
+  const [terceroSeleccionados] = useState(() => {
     const guardados = localStorage.getItem('terceros_mundial');
     return guardados ? JSON.parse(guardados) : {};
   });
@@ -102,7 +101,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('terceros_mundial', JSON.stringify(terceroSeleccionados));
-  }, [terceroSeleccionados]);
+  }, [terceroSeleccionados]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     localStorage.setItem('resultados_mundial', JSON.stringify(resultados));
