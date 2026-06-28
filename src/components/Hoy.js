@@ -174,18 +174,42 @@ function TarjetaPartido({ partido, resultados, setResultados, tema, enCurso, t }
 
           <div style={{ margin: '0 16px', textAlign: 'center' }}>
             {editando ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <input type="number" min="0" max="20" value={res.golesLocal ?? ''}
-                  onChange={e => setResultados(prev => ({ ...prev, [partido.id]: { ...prev[partido.id], golesLocal: e.target.value } }))}
-                  style={{ width: '45px', textAlign: 'center', fontSize: '1.2rem', borderRadius: '8px', border: 'none', padding: '4px', background: 'rgba(255,255,255,0.2)', color: 'white' }} />
-                <span style={{ color: 'white', fontWeight: 'bold' }}>-</span>
-                <input type="number" min="0" max="20" value={res.golesVisita ?? ''}
-                  onChange={e => setResultados(prev => ({ ...prev, [partido.id]: { ...prev[partido.id], golesVisita: e.target.value } }))}
-                  style={{ width: '45px', textAlign: 'center', fontSize: '1.2rem', borderRadius: '8px', border: 'none', padding: '4px', background: 'rgba(255,255,255,0.2)', color: 'white' }} />
+              <div>
+          <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.6)', textAlign: 'center', marginBottom: '2px' }}>90 min</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+          <input type="number" min="0" max="20" value={res.golesLocal ?? ''}
+              onChange={e => setResultados(prev => ({ ...prev, [partido.id]: { ...prev[partido.id], golesLocal: e.target.value } }))}
+              style={{ width: '45px', textAlign: 'center', fontSize: '1.2rem', borderRadius: '8px', border: 'none', padding: '4px', background: 'rgba(255,255,255,0.2)', color: 'white' }} />
+          <span style={{ color: 'white', fontWeight: 'bold' }}>-</span>
+          <input type="number" min="0" max="20" value={res.golesVisita ?? ''}
+              onChange={e => setResultados(prev => ({ ...prev, [partido.id]: { ...prev[partido.id], golesVisita: e.target.value } }))}
+              style={{ width: '45px', textAlign: 'center', fontSize: '1.2rem', borderRadius: '8px', border: 'none', padding: '4px', background: 'rgba(255,255,255,0.2)', color: 'white' }} />
+          </div>
+
+
+{/* Penales — solo si empate en alargue */}
+{partido.id >= 73 && res.golesLocalAlargue !== undefined && res.golesLocalAlargue !== '' && parseInt(res.golesLocalAlargue) === parseInt(res.golesVisitaAlargue) && (
+  <>
+    <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.6)', textAlign: 'center', marginBottom: '2px' }}>Penales</div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <input type="number" min="0" max="20" value={res.penalesLocal ?? ''}
+        onChange={e => setResultados(prev => ({ ...prev, [partido.id]: { ...prev[partido.id], penalesLocal: e.target.value } }))}
+        style={{ width: '45px', textAlign: 'center', fontSize: '1.2rem', borderRadius: '8px', border: 'none', padding: '4px', background: 'rgba(255,255,255,0.2)', color: 'white' }} />
+      <span style={{ color: 'white', fontWeight: 'bold' }}>-</span>
+      <input type="number" min="0" max="20" value={res.penalesVisita ?? ''}
+        onChange={e => setResultados(prev => ({ ...prev, [partido.id]: { ...prev[partido.id], penalesVisita: e.target.value } }))}
+        style={{ width: '45px', textAlign: 'center', fontSize: '1.2rem', borderRadius: '8px', border: 'none', padding: '4px', background: 'rgba(255,255,255,0.2)', color: 'white' }} />
+    </div>
+  </>
+)}
               </div>
             ) : (
               <span style={{ fontSize: '1.6rem', fontWeight: 'bold', color: jugado ? '#4fc3f7' : 'rgba(255,255,255,0.5)' }}>
-                {jugado ? `${res.golesLocal} - ${res.golesVisita}` : 'vs'}
+                {jugado ? (
+                  res.penalesLocal !== undefined && res.penalesLocal !== ''
+                    ? `(${res.penalesLocal}) ${res.golesLocal} - ${res.golesVisita} (${res.penalesVisita})`
+                    : `${res.golesLocal} - ${res.golesVisita}`
+                ) : 'vs'}
               </span>
             )}
           </div>

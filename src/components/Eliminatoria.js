@@ -141,22 +141,9 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
     style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
 </div>
 
-{/* Alargue — solo si empate en 90 */}
-{res.golesLocal !== '' && res.golesVisita !== '' && res.golesLocal !== undefined && parseInt(res.golesLocal) === parseInt(res.golesVisita) && (
-  <>
-    <div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>Alargue</div>
-    <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
-      <input type="number" min="0" max="20" placeholder="0" value={res.golesLocalAlargue ?? ''} onChange={e => actualizar('golesLocalAlargue', e.target.value)}
-        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-      <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
-      <input type="number" min="0" max="20" placeholder="0" value={res.golesVisitaAlargue ?? ''} onChange={e => actualizar('golesVisitaAlargue', e.target.value)}
-        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-    </div>
-  </>
-)}
 
 {/* Penales — solo si empate en alargue */}
-{res.golesLocalAlargue !== '' && res.golesVisitaAlargue !== '' && res.golesLocalAlargue !== undefined && parseInt(res.golesLocalAlargue) === parseInt(res.golesVisitaAlargue) && (
+{res.golesLocal !== '' && res.golesLocal !== undefined && parseInt(res.golesLocal) === parseInt(res.golesVisita) && (
   <>
     <div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>Penales</div>
     <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
@@ -189,7 +176,11 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
             {res.local || partido.desc.split(' vs ')[0]}
           </div>
           <div style={{ color: jugado ? '#4fc3f7' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '1.1rem', margin: '2px 0' }}>
-            {jugado ? `${res.golesLocal} - ${res.golesVisita}` : 'vs'}
+            {jugado ? (
+              res.penalesLocal !== undefined && res.penalesLocal !== ''
+                ? `(${res.penalesLocal}) ${res.golesLocal} - ${res.golesVisita} (${res.penalesVisita})`
+                : `${res.golesLocal} - ${res.golesVisita}`
+            ) : 'vs'}
           </div>
           <div style={{ fontWeight: 'bold', color: 'white', fontSize: res.visita ? '0.85rem' : '0.65rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
             {res.visita || partido.desc.split(' vs ')[1]}
