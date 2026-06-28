@@ -131,13 +131,43 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
         <div>
           <input placeholder="Equipo local" value={res.local || ''} onChange={e => actualizar('local', e.target.value)}
             style={{ width: '100%', marginBottom: '4px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.8rem', boxSizing: 'border-box' }} />
-          <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
-            <input type="number" min="0" max="20" placeholder="0" value={res.golesLocal ?? ''} onChange={e => actualizar('golesLocal', e.target.value)}
-              style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-            <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
-            <input type="number" min="0" max="20" placeholder="0" value={res.golesVisita ?? ''} onChange={e => actualizar('golesVisita', e.target.value)}
-              style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-          </div>
+          {/* Goles 90 min */}
+<div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>90 min</div>
+<div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
+  <input type="number" min="0" max="20" placeholder="0" value={res.golesLocal ?? ''} onChange={e => actualizar('golesLocal', e.target.value)}
+    style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
+  <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
+  <input type="number" min="0" max="20" placeholder="0" value={res.golesVisita ?? ''} onChange={e => actualizar('golesVisita', e.target.value)}
+    style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
+</div>
+
+{/* Alargue — solo si empate en 90 */}
+{res.golesLocal !== '' && res.golesVisita !== '' && res.golesLocal !== undefined && parseInt(res.golesLocal) === parseInt(res.golesVisita) && (
+  <>
+    <div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>Alargue</div>
+    <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
+      <input type="number" min="0" max="20" placeholder="0" value={res.golesLocalAlargue ?? ''} onChange={e => actualizar('golesLocalAlargue', e.target.value)}
+        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
+      <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
+      <input type="number" min="0" max="20" placeholder="0" value={res.golesVisitaAlargue ?? ''} onChange={e => actualizar('golesVisitaAlargue', e.target.value)}
+        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
+    </div>
+  </>
+)}
+
+{/* Penales — solo si empate en alargue */}
+{res.golesLocalAlargue !== '' && res.golesVisitaAlargue !== '' && res.golesLocalAlargue !== undefined && parseInt(res.golesLocalAlargue) === parseInt(res.golesVisitaAlargue) && (
+  <>
+    <div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>Penales</div>
+    <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
+      <input type="number" min="0" max="20" placeholder="0" value={res.penalesLocal ?? ''} onChange={e => actualizar('penalesLocal', e.target.value)}
+        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
+      <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
+      <input type="number" min="0" max="20" placeholder="0" value={res.penalesVisita ?? ''} onChange={e => actualizar('penalesVisita', e.target.value)}
+        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
+    </div>
+  </>
+)}
           {necesitaTercero ? (
             <select value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
               style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.75rem', boxSizing: 'border-box' }}>

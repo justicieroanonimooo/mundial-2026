@@ -146,8 +146,31 @@ function App() {
 
       const gl = parseInt(res.golesLocal);
       const gv = parseInt(res.golesVisita);
-      const ganador = gl > gv ? res.local : gl < gv ? res.visita : null;
-      const perdedor = gl > gv ? res.visita : gl < gv ? res.local : null;
+      
+      let ganador = null;
+      let perdedor = null;
+
+      if (gl > gv) {
+        ganador = res.local; perdedor = res.visita;
+      } else if (gl < gv) {
+        ganador = res.visita; perdedor = res.local;
+      } else if (res.golesLocalAlargue !== undefined && res.golesLocalAlargue !== '') {
+        const gla = parseInt(res.golesLocalAlargue);
+        const gva = parseInt(res.golesVisitaAlargue);
+        if (gla > gva) {
+          ganador = res.local; perdedor = res.visita;
+        } else if (gla < gva) {
+          ganador = res.visita; perdedor = res.local;
+        } else if (res.penalesLocal !== undefined && res.penalesLocal !== '') {
+          const pl = parseInt(res.penalesLocal);
+          const pv = parseInt(res.penalesVisita);
+          if (pl > pv) {
+            ganador = res.local; perdedor = res.visita;
+          } else if (pl < pv) {
+            ganador = res.visita; perdedor = res.local;
+          }
+        }
+      }
 
       const prog = progresionEliminatoria[id];
 
