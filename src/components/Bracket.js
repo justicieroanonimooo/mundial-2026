@@ -96,15 +96,40 @@ function PartidoBracket({ id, resultados, tema, x, y, espejo, oscuro }) {
       </defs>
       <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" ry="8" fill={tema.tarjeta} stroke={jugado ? tema.puntaje : tema.borde} strokeWidth="1.5" />
       {res.local && <rect x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} fill="white" opacity="0.15" clipPath={`url(#clipLeft${id})`} />}
-{res.local && <image href={`/escudos/${getAbrevBracket(res.local)}.png`} x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipLeft${id})`} />}
-{res.visita && <rect x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} fill="white" opacity="0.15" clipPath={`url(#clipRight${id})`} />}
-{res.visita && <image href={`/escudos/${getAbrevBracket(res.visita)}.png`} x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipRight${id})`} />}
-      <text x={espejo ? CARD_WIDTH - 8 : 8} y="14" fontSize="9" fill={tema.puntaje} fontWeight="bold" textAnchor={espejo ? "end" : "start"}>P{id}</text>
-      <line x1="0" y1={CARD_HEIGHT / 2} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2} stroke={tema.borde} strokeWidth="1" />
-      <text x={espejo ? CARD_WIDTH - 8 : 8} y="36" fontSize={res.local ? "13" : "8"} fill={tema.texto} fontWeight="bold" textAnchor={espejo ? "end" : "start"}>{(res.local || infoPartidos[id]?.desc.split(' vs ')[0] || '?').substring(0, 20)}</text>
-      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="36" fontSize="13" fill={oscuro ? "white" : "#333"} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.penalesLocal !== undefined && res.penalesLocal !== '' ? `${res.golesLocal} (${res.penalesLocal})` : res.golesLocal}</text>}
-      <text x={espejo ? CARD_WIDTH - 8 : 8} y="68" fontSize={res.visita ? "13" : "8"} fill={tema.texto} textAnchor={espejo ? "end" : "start"}>{(res.visita || infoPartidos[id]?.desc.split(' vs ')[1] || '?').substring(0, 20)}</text>
-      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="68" fontSize="13" fill={oscuro ? "white" : "#333"} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.penalesVisita !== undefined && res.penalesVisita !== '' ? `${res.golesVisita} (${res.penalesVisita})` : res.golesVisita}</text>}
+      {res.local && <image href={`/escudos/${getAbrevBracket(res.local)}.png`} x="0" y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipLeft${id})`} />}
+      {res.visita && <rect x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} fill="white" opacity="0.15" clipPath={`url(#clipRight${id})`} />}
+      {res.visita && <image href={`/escudos/${getAbrevBracket(res.visita)}.png`} x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipRight${id})`} />}
+
+      {/* Nombre local - izquierda arriba */}
+      <text x={CARD_WIDTH/4} y="28" fontSize={res.local ? "11" : "8"} fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+        {(res.local || infoPartidos[id]?.desc.split(' vs ')[0] || '?').substring(0, 10)}
+      </text>
+
+      {/* Nombre visita - derecha arriba */}
+      <text x={CARD_WIDTH * 3/4} y="28" fontSize={res.visita ? "11" : "8"} fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+        {(res.visita || infoPartidos[id]?.desc.split(' vs ')[1] || '?').substring(0, 10)}
+      </text>
+
+      {/* Línea divisoria */}
+      <line x1="0" y1={CARD_HEIGHT * 0.55} x2={CARD_WIDTH} y2={CARD_HEIGHT * 0.55} stroke={tema.borde} strokeWidth="1" />
+
+      {/* Resultado local - abajo izquierda */}
+      <text x={CARD_WIDTH * 0.28} y={CARD_HEIGHT * 0.82} fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+        {jugado ? (res.penalesLocal !== undefined && res.penalesLocal !== '' ? `(${res.penalesLocal}) ${res.golesLocal}` : res.golesLocal) : ''}
+      </text>
+
+      {/* Guion central */}
+      <text x={CARD_WIDTH/2} y={CARD_HEIGHT * 0.82} fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+        {jugado ? '-' : 'vs'}
+      </text>
+
+      {/* Resultado visita - abajo derecha */}
+      <text x={CARD_WIDTH * 0.76} y={CARD_HEIGHT * 0.82} fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+        {jugado ? (res.penalesVisita !== undefined && res.penalesVisita !== '' ? `${res.golesVisita} (${res.penalesVisita})` : res.golesVisita) : ''}
+      </text>
+
+      {/* ID partido */}
+      <text x={CARD_WIDTH/2} y="12" fontSize="8" fill={tema.puntaje} fontWeight="bold" textAnchor="middle">P{id}</text>
     </g>
   );
 }
