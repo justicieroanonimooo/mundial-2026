@@ -80,7 +80,7 @@ function calcularPosiciones(rondas) {
   return posiciones;
 }
 
-function PartidoBracket({ id, resultados, tema, x, y, espejo }) {
+function PartidoBracket({ id, resultados, tema, x, y, espejo, oscuro }) {
   const res = resultados[id] || {};
   const jugado = res.local && res.visita && res.golesLocal !== '' && res.golesLocal !== undefined;
 
@@ -101,15 +101,15 @@ function PartidoBracket({ id, resultados, tema, x, y, espejo }) {
 {res.visita && <image href={`/escudos/${getAbrevBracket(res.visita)}.png`} x={CARD_WIDTH/2} y="0" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" clipPath={`url(#clipRight${id})`} />}
       <text x={espejo ? CARD_WIDTH - 8 : 8} y="14" fontSize="9" fill={tema.puntaje} fontWeight="bold" textAnchor={espejo ? "end" : "start"}>P{id}</text>
       <line x1="0" y1={CARD_HEIGHT / 2} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2} stroke={tema.borde} strokeWidth="1" />
-      <text x={espejo ? CARD_WIDTH - 8 : 8} y="34" fontSize={res.local ? "11" : "7"} fill={tema.texto} fontWeight="bold" textAnchor={espejo ? "end" : "start"}>{(res.local || infoPartidos[id]?.desc.split(' vs ')[0] || '?').substring(0, 22)}</text>
-      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="34" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.golesLocal}</text>}
-      <text x={espejo ? CARD_WIDTH - 8 : 8} y="64" fontSize={res.visita ? "11" : "7"} fill={tema.texto} textAnchor={espejo ? "end" : "start"}>{(res.visita || infoPartidos[id]?.desc.split(' vs ')[1] || '?').substring(0, 22)}</text>
-      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="64" fontSize="11" fill={tema.puntaje} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.golesVisita}</text>}
+      <text x={espejo ? CARD_WIDTH - 8 : 8} y="36" fontSize={res.local ? "13" : "8"} fill={tema.texto} fontWeight="bold" textAnchor={espejo ? "end" : "start"}>{(res.local || infoPartidos[id]?.desc.split(' vs ')[0] || '?').substring(0, 20)}</text>
+      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="36" fontSize="13" fill={oscuro ? "white" : "#333"} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.penalesLocal !== undefined && res.penalesLocal !== '' ? `${res.golesLocal} (${res.penalesLocal})` : res.golesLocal}</text>}
+      <text x={espejo ? CARD_WIDTH - 8 : 8} y="68" fontSize={res.visita ? "13" : "8"} fill={tema.texto} textAnchor={espejo ? "end" : "start"}>{(res.visita || infoPartidos[id]?.desc.split(' vs ')[1] || '?').substring(0, 20)}</text>
+      {jugado && <text x={espejo ? 10 : CARD_WIDTH - 10} y="68" fontSize="13" fill={oscuro ? "white" : "#333"} fontWeight="bold" textAnchor={espejo ? "start" : "end"}>{res.penalesVisita !== undefined && res.penalesVisita !== '' ? `${res.golesVisita} (${res.penalesVisita})` : res.golesVisita}</text>}
     </g>
   );
 }
 
-function BracketLado({ rondas, posiciones, resultados, tema, offsetX, espejo }) {
+function BracketLado({ rondas, posiciones, resultados, tema, offsetX, espejo, oscuro }) {
   const elementos = [];
 
   rondas.forEach((ronda, rondaIdx) => {
@@ -121,7 +121,7 @@ function BracketLado({ rondas, posiciones, resultados, tema, offsetX, espejo }) 
       const y = posiciones[rondaIdx][partidoIdx];
 
       elementos.push(
-        <PartidoBracket key={`card-${id}`} id={id} resultados={resultados} tema={tema} x={x} y={y} espejo={espejo} />
+        <PartidoBracket key={`card-${id}`} id={id} resultados={resultados} tema={tema} x={x} y={y} espejo={espejo} oscuro={oscuro} />
       );
 
       if (rondaIdx < rondas.length - 1) {
@@ -197,6 +197,7 @@ function Bracket({ resultados, oscuro }) {
                 tema={tema}
                 offsetX={45}
                 espejo={false}
+                oscuro={oscuro}
               />
             </g>
 
@@ -228,6 +229,7 @@ function Bracket({ resultados, oscuro }) {
                 tema={tema}
                 offsetX={anchoTotal - CARD_WIDTH - -160}
                 espejo={true}
+                oscuro={oscuro}
               />
             </g>
 
