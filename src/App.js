@@ -99,6 +99,24 @@ function App() {
     return guardados ? JSON.parse(guardados) : {};
   });
 
+  const limpiarProgresion = (id, prevResultados) => {
+    const nuevos = { ...prevResultados };
+    const prog = progresionEliminatoria[id];
+    if (!prog) return nuevos;
+
+    const limpiarDestino = (partidoId, rol) => {
+      if (nuevos[partidoId]) {
+        nuevos[partidoId] = { ...nuevos[partidoId], [rol]: '' };
+      }
+    };
+
+    if (prog.partido) limpiarDestino(prog.partido, prog.rol);
+    if (prog.ganador) limpiarDestino(prog.ganador.partido, prog.ganador.rol);
+    if (prog.perdedor) limpiarDestino(prog.perdedor.partido, prog.perdedor.rol);
+
+    return nuevos;
+  };
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     localStorage.setItem('terceros_mundial', JSON.stringify(terceroSeleccionados));
@@ -122,14 +140,14 @@ function App() {
       const claseP = clasificacionGrupos[grupo].primero;
       const claseS = clasificacionGrupos[grupo].segundo;
 
-      // Asignar primero
+      // Asignar primero — solo si el equipo no está ya asignado O si cambió
       const resP = nuevosResultados[claseP.partido] || {};
       if (resP[claseP.rol] !== primero) {
         nuevosResultados[claseP.partido] = { ...resP, [claseP.rol]: primero };
         huboCambios = true;
       }
 
-      // Asignar segundo
+      // Asignar segundo — solo si el equipo no está ya asignado O si cambió
       const resS = nuevosResultados[claseS.partido] || {};
       if (resS[claseS.rol] !== segundo) {
         nuevosResultados[claseS.partido] = { ...resS, [claseS.rol]: segundo };
@@ -154,21 +172,13 @@ function App() {
         ganador = res.local; perdedor = res.visita;
       } else if (gl < gv) {
         ganador = res.visita; perdedor = res.local;
-      } else if (res.golesLocalAlargue !== undefined && res.golesLocalAlargue !== '') {
-        const gla = parseInt(res.golesLocalAlargue);
-        const gva = parseInt(res.golesVisitaAlargue);
-        if (gla > gva) {
+      } else if (res.penalesLocal !== undefined && res.penalesLocal !== '') {
+        const pl = parseInt(res.penalesLocal);
+        const pv = parseInt(res.penalesVisita);
+        if (pl > pv) {
           ganador = res.local; perdedor = res.visita;
-        } else if (gla < gva) {
+        } else if (pl < pv) {
           ganador = res.visita; perdedor = res.local;
-        } else if (res.penalesLocal !== undefined && res.penalesLocal !== '') {
-          const pl = parseInt(res.penalesLocal);
-          const pv = parseInt(res.penalesVisita);
-          if (pl > pv) {
-            ganador = res.local; perdedor = res.visita;
-          } else if (pl < pv) {
-            ganador = res.visita; perdedor = res.local;
-          }
         }
       }
 
@@ -272,8 +282,8 @@ function App() {
 
           {seccion === 'grupos' && <Grupos resultados={resultados} grupoActivo={grupoActivo} setGrupoActivo={setGrupoActivo} />}
           {seccion === 'fixture' && <Fixture resultados={resultados} setResultados={setResultados} grupoActivo={grupoActivo} setGrupoActivo={setGrupoActivo} />}
-          {seccion === 'hoy' && <Hoy resultados={resultados} setResultados={setResultados} />}
-          {seccion === 'eliminatoria' && <Eliminatoria resultados={resultados} setResultados={setResultados} oscuro={oscuro} />}
+          {seccion === 'hoy' && <Hoy resultados={resultados} setResultados={setResultados} limpiarProgresion={limpiarProgresion} />}
+          {seccion === 'eliminatoria' && <Eliminatoria resultados={resultados} setResultados={setResultados} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />}
           {seccion === 'bracket' && <Bracket resultados={resultados} setResultados={setResultados} oscuro={oscuro} />}
 
         </div>

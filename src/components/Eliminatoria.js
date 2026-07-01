@@ -5,24 +5,24 @@ import { gruposValidosTercero, getTercerosDisponibles } from '../terceros';
 import { getAbrev, getBandera } from '../equipos';
 
 const imagenesEstadios = {
-    'Ciudad de México': '/estadio-azteca.jpg',
-    'Dallas': '/estadio-dallas.jpg',
-    'Monterrey': '/estadio-monterrey.jpg',
-    'Boston': '/estadio-boston.jpg',
-    'Houston': '/estadio-houston.jpg',
-    'Nueva York': '/estadio-newyork.jpg',
-    'Miami': '/estadio-miami.jpg',
-    'Atlanta': '/estadio-atlanta.jpg',
-    'Los Ángeles': '/estadio-losangeles.jpg',
-    'Seattle': '/estadio-seattle.jpg',
-    'Vancouver': '/estadio-vancouver.jpg',
-    'Toronto': '/estadio-toronto.jpg',
-    'Kansas City': '/estadio-kansas.jpg',
-    'Filadelfia': '/estadio-filadelfia.jpg',
-    'San Francisco': '/estadio-sanfrancisco.jpg',
-    'Guadalajara': '/estadio-guadalajara.jpg',
-    'Denver': '/estadio-dallas.jpg',
-  };
+  'Ciudad de México': '/estadio-azteca.jpg',
+  'Dallas': '/estadio-dallas.jpg',
+  'Monterrey': '/estadio-monterrey.jpg',
+  'Boston': '/estadio-boston.jpg',
+  'Houston': '/estadio-houston.jpg',
+  'Nueva York': '/estadio-newyork.jpg',
+  'Miami': '/estadio-miami.jpg',
+  'Atlanta': '/estadio-atlanta.jpg',
+  'Los Ángeles': '/estadio-losangeles.jpg',
+  'Seattle': '/estadio-seattle.jpg',
+  'Vancouver': '/estadio-vancouver.jpg',
+  'Toronto': '/estadio-toronto.jpg',
+  'Kansas City': '/estadio-kansas.jpg',
+  'Filadelfia': '/estadio-filadelfia.jpg',
+  'San Francisco': '/estadio-sanfrancisco.jpg',
+  'Guadalajara': '/estadio-guadalajara.jpg',
+  'Denver': '/estadio-dallas.jpg',
+};
 
 const dieciseisavos = [
   { id: 73, label: 'P73', desc: '2º Grupo A vs 2º Grupo B', fecha: '28 Jun', sede: 'Ciudad de México' },
@@ -69,11 +69,10 @@ const semis = [
 const tercerPuesto = { id: 103, label: 'P103', desc: 'Per. P101 vs Per. P102', fecha: '18 Jul', sede: 'Miami' };
 const final = { id: 104, label: 'P104', desc: 'Gan. P101 vs Gan. P102', fecha: '19 Jul', sede: 'Nueva York' };
 
-function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
+function PartidoCard({ partido, resultados, setResultados, tema, oscuro, limpiarProgresion }) {
   const [editando, setEditando] = useState(false);
   const res = resultados[partido.id] || {};
   const jugado = res.local && res.visita && res.golesLocal !== undefined && res.golesVisita !== undefined && res.golesLocal !== '' && res.golesVisita !== '';
-
   const necesitaTercero = gruposValidosTercero[partido.id];
 
   const actualizar = (campo, valor) => {
@@ -90,7 +89,6 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
       .filter(([id]) => gruposValidosTercero[id] && parseInt(id) !== partido.id)
       .map(([, r]) => r.visita)
       .filter(Boolean);
-
     opcionesTercero = todosLosTerceros.filter(t =>
       necesitaTercero.includes(t.grupo) &&
       (!usadosEnOtrosPartidos.includes(t.nombre) || t.nombre === res.visita)
@@ -99,114 +97,126 @@ function PartidoCard({ partido, resultados, setResultados, tema, oscuro }) {
 
   return (
     <div style={{
-        background: imagenesEstadios[partido.sede] 
+      background: imagenesEstadios[partido.sede]
         ? `url(${imagenesEstadios[partido.sede]}) center/cover no-repeat`
         : tema.tarjeta,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        borderRadius: '10px',
-        boxShadow: tema.sombra,
-        padding: '10px',
-        minWidth: '180px',
-        maxWidth: '200px',
-        transition: 'all 0.3s',
-        border: jugado ? `2px solid ${tema.puntaje}` : `2px solid ${tema.borde}`,
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: oscuro ? 'rgba(0,0,0,0.82)' : 'rgba(0,0,0,0.65)',
-          zIndex: 0,
-        }} />
-        <div style={{ position: 'relative', zIndex: 1 }}>
-      <div style={{ fontSize: '0.7rem', color: tema.puntaje, fontWeight: 'bold', marginBottom: '4px' }}>
-        {partido.label}
-      </div>
-      <div style={{ fontSize: '0.7rem', color: tema.subtexto, marginBottom: '6px' }}>
-         📅 {horariosPartidos[partido.id] ? formatearHoraLocal(horariosPartidos[partido.id]) : partido.fecha} · 📍 {partido.sede}
-         </div>
+      borderRadius: '10px',
+      boxShadow: tema.sombra,
+      padding: '10px',
+      minWidth: '180px',
+      maxWidth: '200px',
+      transition: 'all 0.3s',
+      border: jugado ? `2px solid ${tema.puntaje}` : `2px solid ${tema.borde}`,
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: oscuro ? 'rgba(0,0,0,0.82)' : 'rgba(0,0,0,0.65)',
+        zIndex: 0,
+      }} />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div style={{ fontSize: '0.7rem', color: tema.puntaje, fontWeight: 'bold', marginBottom: '4px' }}>
+          {partido.label}
+        </div>
+        <div style={{ fontSize: '0.7rem', color: tema.subtexto, marginBottom: '6px' }}>
+          📅 {horariosPartidos[partido.id] ? formatearHoraLocal(horariosPartidos[partido.id]) : partido.fecha} · 📍 {partido.sede}
+        </div>
 
-      {editando ? (
-        <div>
-          <input placeholder="Equipo local" value={res.local || ''} onChange={e => actualizar('local', e.target.value)}
-            style={{ width: '100%', marginBottom: '4px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.8rem', boxSizing: 'border-box' }} />
-          {/* Goles 90 min */}
-<div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>90 min</div>
-<div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
-  <input type="number" min="0" max="20" placeholder="0" value={res.golesLocal ?? ''} onChange={e => actualizar('golesLocal', e.target.value)}
-    style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-  <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
-  <input type="number" min="0" max="20" placeholder="0" value={res.golesVisita ?? ''} onChange={e => actualizar('golesVisita', e.target.value)}
-    style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-</div>
+        {editando ? (
+          <div>
+            <input placeholder="Equipo local" value={res.local || ''} onChange={e => actualizar('local', e.target.value)}
+              style={{ width: '100%', marginBottom: '4px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.tarjeta, color: tema.texto, fontSize: '0.8rem', boxSizing: 'border-box' }} />
 
+            <div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>90 min</div>
+            <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
+              <input type="number" min="0" max="20" placeholder="0" value={res.golesLocal ?? ''} onChange={e => actualizar('golesLocal', e.target.value)}
+                style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.tarjeta, color: tema.texto, textAlign: 'center' }} />
+              <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
+              <input type="number" min="0" max="20" placeholder="0" value={res.golesVisita ?? ''} onChange={e => actualizar('golesVisita', e.target.value)}
+                style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.tarjeta, color: tema.texto, textAlign: 'center' }} />
+            </div>
 
-{/* Penales — solo si empate en alargue */}
-{res.golesLocal !== '' && res.golesLocal !== undefined && parseInt(res.golesLocal) === parseInt(res.golesVisita) && (
-  <>
-    <div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>Penales</div>
-    <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
-      <input type="number" min="0" max="20" placeholder="0" value={res.penalesLocal ?? ''} onChange={e => actualizar('penalesLocal', e.target.value)}
-        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-      <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
-      <input type="number" min="0" max="20" placeholder="0" value={res.penalesVisita ?? ''} onChange={e => actualizar('penalesVisita', e.target.value)}
-        style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, textAlign: 'center' }} />
-    </div>
-  </>
-)}
-          {necesitaTercero ? (
-            <select value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
-              style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.75rem', boxSizing: 'border-box' }}>
-              <option value="">-- 3º {necesitaTercero.join('/')} --</option>
-              {opcionesTercero.map(t => (
-                <option key={t.nombre} value={t.nombre}>
-                  {getBandera(t.nombre)} {getAbrev(t.nombre)} ({t.pts}pts)
-                </option>
-              ))}
-            </select>
-          ) : (
-            <input placeholder="Equipo visita" value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
-              style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.fondo, color: tema.texto, fontSize: '0.8rem', boxSizing: 'border-box' }} />
+            {res.golesLocal !== '' && res.golesLocal !== undefined && parseInt(res.golesLocal) === parseInt(res.golesVisita) && (
+              <>
+                <div style={{ fontSize: '0.65rem', color: tema.subtexto, textAlign: 'center', marginBottom: '2px' }}>Penales</div>
+                <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '4px' }}>
+                  <input type="number" min="0" max="20" placeholder="0" value={res.penalesLocal ?? ''} onChange={e => actualizar('penalesLocal', e.target.value)}
+                    style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.tarjeta, color: tema.texto, textAlign: 'center' }} />
+                  <span style={{ color: tema.texto, fontWeight: 'bold' }}>-</span>
+                  <input type="number" min="0" max="20" placeholder="0" value={res.penalesVisita ?? ''} onChange={e => actualizar('penalesVisita', e.target.value)}
+                    style={{ width: '45px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.tarjeta, color: tema.texto, textAlign: 'center' }} />
+                </div>
+              </>
+            )}
+
+            {necesitaTercero ? (
+              <select value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
+                style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.tarjeta, color: tema.texto, fontSize: '0.75rem', boxSizing: 'border-box' }}>
+                <option value="">-- 3º {necesitaTercero.join('/')} --</option>
+                {opcionesTercero.map(t => (
+                  <option key={t.nombre} value={t.nombre}>
+                    {getBandera(t.nombre)} {getAbrev(t.nombre)} ({t.pts}pts)
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input placeholder="Equipo visita" value={res.visita || ''} onChange={e => actualizar('visita', e.target.value)}
+                style={{ width: '100%', marginBottom: '6px', padding: '4px', borderRadius: '4px', border: `1px solid ${tema.borde}`, background: tema.tarjeta, color: tema.texto, fontSize: '0.8rem', boxSizing: 'border-box' }} />
+            )}
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '6px 0' }}>
+            <div style={{ fontWeight: 'bold', color: 'white', fontSize: res.local ? '0.85rem' : '0.65rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
+              {res.local || partido.desc.split(' vs ')[0]}
+            </div>
+            <div style={{ color: jugado ? '#4fc3f7' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '1.1rem', margin: '2px 0' }}>
+              {jugado ? (
+                res.penalesLocal !== undefined && res.penalesLocal !== ''
+                  ? `(${res.penalesLocal}) ${res.golesLocal} - ${res.golesVisita} (${res.penalesVisita})`
+                  : `${res.golesLocal} - ${res.golesVisita}`
+              ) : 'vs'}
+            </div>
+            <div style={{ fontWeight: 'bold', color: 'white', fontSize: res.visita ? '0.85rem' : '0.65rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
+              {res.visita || partido.desc.split(' vs ')[1]}
+            </div>
+          </div>
+        )}
+
+        <div style={{ fontSize: '0.7rem', color: tema.subtexto, marginBottom: '6px', textAlign: 'center' }}>
+          {partido.desc}
+        </div>
+
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <button onClick={() => setEditando(!editando)} style={{
+            flex: 1, padding: '4px', fontSize: '0.75rem',
+            background: editando ? tema.primario : tema.botonInactivo,
+            color: editando ? 'white' : tema.textoInactivo,
+            border: 'none', borderRadius: '6px', cursor: 'pointer',
+            transition: 'all 0.3s'
+          }}>
+            {editando ? '✅ Listo' : '✏️ Editar'}
+          </button>
+          {jugado && limpiarProgresion && (
+            <button onClick={() => {
+              setResultados(prev => {
+                const nuevos = limpiarProgresion(partido.id, prev);
+                delete nuevos[partido.id];
+                return nuevos;
+              });
+            }} style={{
+              padding: '4px 8px', fontSize: '0.75rem',
+              background: 'rgba(255,0,0,0.4)', color: 'white',
+              border: 'none', borderRadius: '6px', cursor: 'pointer',
+            }}>🗑️</button>
           )}
         </div>
-      ) : (
-        <div style={{ textAlign: 'center', padding: '6px 0' }}>
-          <div style={{ fontWeight: 'bold', color: 'white', fontSize: res.local ? '0.85rem' : '0.65rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
-            {res.local || partido.desc.split(' vs ')[0]}
-          </div>
-          <div style={{ color: jugado ? '#4fc3f7' : 'rgba(255,255,255,0.6)', fontWeight: 'bold', fontSize: '1.1rem', margin: '2px 0' }}>
-            {jugado ? (
-              res.penalesLocal !== undefined && res.penalesLocal !== ''
-                ? `(${res.penalesLocal}) ${res.golesLocal} - ${res.golesVisita} (${res.penalesVisita})`
-                : `${res.golesLocal} - ${res.golesVisita}`
-            ) : 'vs'}
-          </div>
-          <div style={{ fontWeight: 'bold', color: 'white', fontSize: res.visita ? '0.85rem' : '0.65rem', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
-            {res.visita || partido.desc.split(' vs ')[1]}
-          </div>
-        </div>
-      )}
-
-      <div style={{ fontSize: '0.7rem', color: tema.subtexto, marginBottom: '6px', textAlign: 'center' }}>
-        {partido.desc}
-      </div>
-
-      <button onClick={() => setEditando(!editando)} style={{
-        width: '100%', padding: '4px', fontSize: '0.75rem',
-        background: editando ? tema.primario : tema.botonInactivo,
-        color: editando ? 'white' : tema.textoInactivo,
-        border: 'none', borderRadius: '6px', cursor: 'pointer',
-        transition: 'all 0.3s'
-      }}>
-        {editando ? '✅ Listo' : '✏️ Editar'}
-      </button>
       </div>
     </div>
   );
 }
 
-function Ronda({ titulo, partidos, resultados, setResultados, tema, oscuro }) {
+function Ronda({ titulo, partidos, resultados, setResultados, tema, oscuro, limpiarProgresion }) {
   return (
     <div style={{ marginBottom: '32px' }}>
       <h3 style={{ color: tema.puntaje, textAlign: 'center', marginBottom: '16px', letterSpacing: '1px' }}>
@@ -214,16 +224,16 @@ function Ronda({ titulo, partidos, resultados, setResultados, tema, oscuro }) {
       </h3>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
         {partidos.map(p => (
-          <PartidoCard key={p.id} partido={p} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} />
+          <PartidoCard key={p.id} partido={p} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />
         ))}
       </div>
     </div>
   );
 }
 
-function Eliminatoria({ resultados, setResultados, oscuro }) {
-    const tema = useContext(TemaContext);
-    const { t } = useContext(IdiomaContext);
+function Eliminatoria({ resultados, setResultados, oscuro, limpiarProgresion }) {
+  const tema = useContext(TemaContext);
+  const { t } = useContext(IdiomaContext);
 
   return (
     <div style={{ padding: '20px', maxWidth: '1100px', margin: '0 auto' }}>
@@ -234,27 +244,26 @@ function Eliminatoria({ resultados, setResultados, oscuro }) {
         {t.eliminatoria.subtitulo}
       </p>
 
-      {/* Copa del Mundo centrada */}
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-      <img src={oscuro ? "/copa-oscuro.png" : "/copa-claro.png"} alt="Copa Mundial" style={{ width: '120px', height: '120px', objectFit: 'contain', opacity: 0.9 }} />
+        <img src={oscuro ? "/copa-oscuro.png" : "/copa-claro.png"} alt="Copa Mundial" style={{ width: '120px', height: '120px', objectFit: 'contain', opacity: 0.9 }} />
         <div style={{ color: tema.puntaje, fontWeight: 'bold', fontSize: '1rem', marginTop: '8px', letterSpacing: '2px' }}>
           {t.eliminatoria.copaTitulo}
         </div>
       </div>
 
-      <Ronda titulo={t.eliminatoria.dieciseisavos} partidos={dieciseisavos} resultados={resultados} setResultados={setResultados} tema={tema} />
-      <Ronda titulo={t.eliminatoria.octavos} partidos={octavos} resultados={resultados} setResultados={setResultados} tema={tema} />
-      <Ronda titulo={t.eliminatoria.cuartos} partidos={cuartos} resultados={resultados} setResultados={setResultados} tema={tema} />
-      <Ronda titulo={t.eliminatoria.semis} partidos={semis} resultados={resultados} setResultados={setResultados} tema={tema} />
+      <Ronda titulo={t.eliminatoria.dieciseisavos} partidos={dieciseisavos} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />
+      <Ronda titulo={t.eliminatoria.octavos} partidos={octavos} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />
+      <Ronda titulo={t.eliminatoria.cuartos} partidos={cuartos} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />
+      <Ronda titulo={t.eliminatoria.semis} partidos={semis} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />
 
       <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '32px' }}>
         <div>
           <h3 style={{ color: tema.subtexto, textAlign: 'center', marginBottom: '16px' }}>{t.eliminatoria.tercero}</h3>
-          <PartidoCard partido={tercerPuesto} resultados={resultados} setResultados={setResultados} tema={tema} />
+          <PartidoCard partido={tercerPuesto} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />
         </div>
         <div>
           <h3 style={{ color: '#FFD700', textAlign: 'center', marginBottom: '16px' }}>{t.eliminatoria.final}</h3>
-          <PartidoCard partido={final} resultados={resultados} setResultados={setResultados} tema={tema} />
+          <PartidoCard partido={final} resultados={resultados} setResultados={setResultados} tema={tema} oscuro={oscuro} limpiarProgresion={limpiarProgresion} />
         </div>
       </div>
     </div>
