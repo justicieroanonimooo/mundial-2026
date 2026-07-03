@@ -33,19 +33,18 @@ export const partidosPorGrupo = {
 // Mapa de ganadores: partido actual -> donde va el ganador
 export const progresionEliminatoria = {
   // 16avos -> Octavos
-  // 16avos -> Octavos
   73: { partido: 90, rol: 'local' },
-  74: { partido: 90, rol: 'visita' },
-  75: { partido: 89, rol: 'local' },
-  76: { partido: 89, rol: 'visita' },
-  77: { partido: 91, rol: 'local' },
+  74: { partido: 89, rol: 'local' },
+  75: { partido: 90, rol: 'visita' },
+  76: { partido: 91, rol: 'local' },
+  77: { partido: 89, rol: 'visita' },
   78: { partido: 91, rol: 'visita' },
   79: { partido: 92, rol: 'local' },
   80: { partido: 92, rol: 'visita' },
-  81: { partido: 94, rol: 'local' },
-  82: { partido: 94, rol: 'visita' },
-  83: { partido: 93, rol: 'local' },
-  84: { partido: 93, rol: 'visita' },
+  81: { partido: 93, rol: 'local' },
+  82: { partido: 93, rol: 'visita' },
+  83: { partido: 94, rol: 'local' },
+  84: { partido: 94, rol: 'visita' },
   85: { partido: 96, rol: 'local' },
   86: { partido: 95, rol: 'local' },
   87: { partido: 96, rol: 'visita' },
