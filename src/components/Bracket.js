@@ -233,16 +233,44 @@ function Bracket({ resultados, oscuro }) {
                 {t.bracket.final}
               </text>
               <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke="#FFD700" strokeWidth="2" y="20" />
-              <text x={CARD_WIDTH/2} y="38" fontSize="9" fill="#FFD700" fontWeight="bold" textAnchor="middle">P104</text>
+              {resultados[104]?.local && <image href={`/escudos/${getAbrevBracket(resultados[104].local)}.png`} x="0" y="20" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" />}
+              {resultados[104]?.visita && <image href={`/escudos/${getAbrevBracket(resultados[104].visita)}.png`} x={CARD_WIDTH/2} y="20" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" />}
+              <text x={CARD_WIDTH/2} y="30" fontSize="8" fill="#FFD700" fontWeight="bold" textAnchor="middle">P104</text>
+              {/* Nombres arriba */}
+              <text x={CARD_WIDTH/4} y="46" fontSize="11" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">{(resultados[104]?.local || 'Gan. P101').substring(0, 10)}</text>
+              <text x={CARD_WIDTH*3/4} y="46" fontSize="11" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">{(resultados[104]?.visita || 'Gan. P102').substring(0, 10)}</text>
+              {/* Línea divisoria */}
               <line x1="0" y1={CARD_HEIGHT / 2 + 20} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 20} stroke={tema.borde} strokeWidth="1" />
-              <text x={CARD_WIDTH/2} y="54" fontSize="7" fill={tema.texto} fontWeight="bold" textAnchor="middle">Gan. P101</text>
-              <text x={CARD_WIDTH/2} y="84" fontSize="7" fill={tema.texto} textAnchor="middle">Gan. P102</text>
+              {/* Resultados abajo */}
+              <text x={CARD_WIDTH * 0.28} y="84" fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+                {resultados[104]?.golesLocal !== undefined && resultados[104]?.golesLocal !== '' ? (resultados[104]?.penalesLocal ? `(${resultados[104].penalesLocal}) ${resultados[104].golesLocal}` : resultados[104].golesLocal) : '-'}
+              </text>
+              <text x={CARD_WIDTH/2} y="84" fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+                {resultados[104]?.golesLocal !== undefined && resultados[104]?.golesLocal !== '' ? '-' : ''}
+              </text>
+              <text x={CARD_WIDTH * 0.76} y="84" fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+                {resultados[104]?.golesVisita !== undefined && resultados[104]?.golesVisita !== '' ? (resultados[104]?.penalesVisita ? `${resultados[104].golesVisita} (${resultados[104].penalesVisita})` : resultados[104].golesVisita) : '-'}
+              </text>
               <text x={CARD_WIDTH / 2} y="130" fontSize="10" fill={tema.subtexto} textAnchor="middle">{t.bracket.tercero}</text>
               <rect width={CARD_WIDTH} height={CARD_HEIGHT} rx="8" fill={tema.tarjeta} stroke={tema.borde} strokeWidth="1.5" y="140" />
-              <text x={CARD_WIDTH/2} y="158" fontSize="9" fill={tema.puntaje} fontWeight="bold" textAnchor="middle">P103</text>
+              {resultados[103]?.local && <image href={`/escudos/${getAbrevBracket(resultados[103].local)}.png`} x="0" y="140" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" />}
+              {resultados[103]?.visita && <image href={`/escudos/${getAbrevBracket(resultados[103].visita)}.png`} x={CARD_WIDTH/2} y="140" width={CARD_WIDTH/2} height={CARD_HEIGHT} opacity="0.35" preserveAspectRatio="xMidYMid meet" />}
+              <text x={CARD_WIDTH/2} y="150" fontSize="8" fill={tema.puntaje} fontWeight="bold" textAnchor="middle">P103</text>
+              {/* Nombres arriba */}
+              <text x={CARD_WIDTH/4} y="166" fontSize="11" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">{(resultados[103]?.local || 'Per. P101').substring(0, 10)}</text>
+              <text x={CARD_WIDTH*3/4} y="166" fontSize="11" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">{(resultados[103]?.visita || 'Per. P102').substring(0, 10)}</text>
+              {/* Línea divisoria */}
               <line x1="0" y1={CARD_HEIGHT / 2 + 140} x2={CARD_WIDTH} y2={CARD_HEIGHT / 2 + 140} stroke={tema.borde} strokeWidth="1" />
-              <text x={CARD_WIDTH/2} y="174" fontSize="7" fill={tema.texto} fontWeight="bold" textAnchor="middle">Per. P101</text>
-              <text x={CARD_WIDTH/2} y="204" fontSize="7" fill={tema.texto} textAnchor="middle">Per. P102</text>
+              {/* Resultados abajo */}
+              <text x={CARD_WIDTH * 0.28} y="204" fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+                {resultados[103]?.golesLocal !== undefined && resultados[103]?.golesLocal !== '' ? (resultados[103]?.penalesLocal ? `(${resultados[103].penalesLocal}) ${resultados[103].golesLocal}` : resultados[103].golesLocal) : '-'}
+              </text>
+              <text x={CARD_WIDTH/2} y="204" fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+                {resultados[103]?.golesLocal !== undefined && resultados[103]?.golesLocal !== '' ? '-' : ''}
+              </text>
+              <text x={CARD_WIDTH * 0.76} y="204" fontSize="13" fill={oscuro ? "white" : "#111"} fontWeight="bold" textAnchor="middle">
+                {resultados[103]?.golesVisita !== undefined && resultados[103]?.golesVisita !== '' ? (resultados[103]?.penalesVisita ? `${resultados[103].golesVisita} (${resultados[103].penalesVisita})` : resultados[103].golesVisita) : '-'}
+              </text>
             </g>
 
             {/* Lado derecho — termina en x=2048 */}
